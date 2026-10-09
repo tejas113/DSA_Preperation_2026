@@ -27,6 +27,11 @@ Within each topic, the **Source** column tells you exactly where each problem co
 list, even if a "simpler" sibling in the same topic is also Core. **Stretch** — a genuine second/harder rep of
 a mechanic a Core problem already teaches, with no new logic of its own.
 
+**Likelihood key (Google L3):** my own estimate of how likely each problem (or something that uses the same
+technique) is to show up, not verified company-tagged data. **High** — a classic, frequently asked at this
+level. **Medium** — asked sometimes, often as a follow-up to a High problem. **Low** — rarely asked at L3
+(Hard, or a plain rep with no new idea).
+
 > **Scope revision (added after first build):** #3 Combinations and #10 Word Break II were added as Stretch
 > problems after the initial 13-problem list. Global numbers were shifted accordingly; no problem files existed
 > yet, so nothing else was affected. Expression Add Operators (LC 282) was also added at that point, then
@@ -38,11 +43,11 @@ a mechanic a Core problem already teaches, with no new logic of its own.
 
 **Pattern:** at each index, branch into two choices — take the current element, or skip it — recursing forward with a `start` index so earlier elements are never revisited.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 1 | Subsets | NC150 | 78 | Medium | Core | ☑ | [01-subsets-family/01-subsets.md](01-subsets-family/01-subsets.md) |
-| 2 | Subsets II | NC150 | 90 | Medium | Core | ☑ | [01-subsets-family/02-subsets-ii.md](01-subsets-family/02-subsets-ii.md) |
-| 3 | Combinations | LC150 | 77 | Medium | Stretch | ☑ | [01-subsets-family/03-combinations.md](01-subsets-family/03-combinations.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | Likelihood (L3) | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Subsets | NC150 | 78 | Medium | Core | High | ☑ | [01-subsets-family/01-subsets.md](01-subsets-family/01-subsets.md) |
+| 2 | Subsets II | NC150 | 90 | Medium | Core | Medium | ☑ | [01-subsets-family/02-subsets-ii.md](01-subsets-family/02-subsets-ii.md) |
+| 3 | Combinations | LC150 | 77 | Medium | Stretch | Medium | ☑ | [01-subsets-family/03-combinations.md](01-subsets-family/03-combinations.md) |
 
 > **Why #2 is Core, not Stretch:** it introduces a genuinely distinct technique — sort first, then skip any
 > element equal to the previous one *at the same recursion depth* (`if i > start and nums[i] == nums[i-1]:
@@ -58,10 +63,10 @@ a mechanic a Core problem already teaches, with no new logic of its own.
 
 **Pattern:** build a full-length arrangement of all elements, tracking which have been used via a `used[]` array (or by swapping in place), rather than a `start` index — order matters here, unlike Topic 1.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 4 | Permutations | NC150 | 46 | Medium | Core | ☑ | [02-permutations-family/04-permutations.md](02-permutations-family/04-permutations.md) |
-| 5 | Permutations II | **[+] Claude** | 47 | Medium | Core | ☑ | [02-permutations-family/05-permutations-ii.md](02-permutations-family/05-permutations-ii.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | Likelihood (L3) | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 4 | Permutations | NC150 | 46 | Medium | Core | High | ☑ | [02-permutations-family/04-permutations.md](02-permutations-family/04-permutations.md) |
+| 5 | Permutations II | **[+] Claude** | 47 | Medium | Core | Medium | ☑ | [02-permutations-family/05-permutations-ii.md](02-permutations-family/05-permutations-ii.md) |
 
 > **Why #5:** Topic 1 already teaches "sort + skip duplicates," but that trick relied on a `start` index.
 > Permutations has no `start` index (every element is a candidate at every depth), so its dedup check is
@@ -74,10 +79,10 @@ a mechanic a Core problem already teaches, with no new logic of its own.
 
 **Pattern:** pick numbers (in some order) that sum to a target, backtracking when the running sum exceeds it. The key branch point: can you reuse the same number, or not?
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 6 | Combination Sum | **LC150 + NC150** | 39 | Medium | Core | ☑ | [03-combination-sum-family/06-combination-sum.md](03-combination-sum-family/06-combination-sum.md) |
-| 7 | Combination Sum II | NC150 | 40 | Medium | Core | ☑ | [03-combination-sum-family/07-combination-sum-ii.md](03-combination-sum-family/07-combination-sum-ii.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | Likelihood (L3) | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 6 | Combination Sum | **LC150 + NC150** | 39 | Medium | Core | High | ☑ | [03-combination-sum-family/06-combination-sum.md](03-combination-sum-family/06-combination-sum.md) |
+| 7 | Combination Sum II | NC150 | 40 | Medium | Core | Medium | ☑ | [03-combination-sum-family/07-combination-sum-ii.md](03-combination-sum-family/07-combination-sum-ii.md) |
 
 > **Why #7:** #6 allows unlimited reuse of the same number (recurse staying at index `i`). #7 forbids reuse
 > (recurse at `i + 1`) *and* the input can contain duplicate values, so it also needs Topic 1's dedup trick on
@@ -90,11 +95,11 @@ a mechanic a Core problem already teaches, with no new logic of its own.
 
 **Pattern:** try every possible "next cut" of the remaining string, recurse on what's left, backtrack if it doesn't pan out.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 8 | Palindrome Partitioning | NC150 | 131 | Medium | Core | ☑ | [04-string-partitioning/08-palindrome-partitioning.md](04-string-partitioning/08-palindrome-partitioning.md) |
-| 9 | Restore IP Addresses | **[+] Claude** | 93 | Medium | Core | ☑ | [04-string-partitioning/09-restore-ip-addresses.md](04-string-partitioning/09-restore-ip-addresses.md) |
-| 10 | Word Break II | **[+] Claude** | 140 | Hard | Stretch | ☑ | [04-string-partitioning/10-word-break-ii.md](04-string-partitioning/10-word-break-ii.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | Likelihood (L3) | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 8 | Palindrome Partitioning | NC150 | 131 | Medium | Core | Medium | ☑ | [04-string-partitioning/08-palindrome-partitioning.md](04-string-partitioning/08-palindrome-partitioning.md) |
+| 9 | Restore IP Addresses | **[+] Claude** | 93 | Medium | Core | Medium | ☑ | [04-string-partitioning/09-restore-ip-addresses.md](04-string-partitioning/09-restore-ip-addresses.md) |
+| 10 | Word Break II | **[+] Claude** | 140 | Hard | Stretch | Low | ☑ | [04-string-partitioning/10-word-break-ii.md](04-string-partitioning/10-word-break-ii.md) |
 
 > **Why #9:** #8's only pruning check is "is this piece valid" (a palindrome). Restore IP Addresses adds a
 > genuinely different pruning technique — arithmetic feasibility bounding: if the remaining string is too long
@@ -112,11 +117,11 @@ a mechanic a Core problem already teaches, with no new logic of its own.
 
 **Pattern:** two different flavors of "search a 2D space with backtracking" — exploring outward from a cell (marking/unmarking visited), vs. placing one item per row and checking constraints against everything placed so far.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 11 | Word Search | NC150 | 79 | Medium | Core | ☑ | [05-grid-board-backtracking/11-word-search.md](05-grid-board-backtracking/11-word-search.md) |
-| 12 | N-Queens | NC150 | 51 | Hard | Core | ☑ | [05-grid-board-backtracking/12-n-queens.md](05-grid-board-backtracking/12-n-queens.md) |
-| 13 | N-Queens II | LC150 | 52 | Hard | Stretch | ☑ | [05-grid-board-backtracking/13-n-queens-ii.md](05-grid-board-backtracking/13-n-queens-ii.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | Likelihood (L3) | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 11 | Word Search | NC150 | 79 | Medium | Core | High | ☑ | [05-grid-board-backtracking/11-word-search.md](05-grid-board-backtracking/11-word-search.md) |
+| 12 | N-Queens | NC150 | 51 | Hard | Core | Medium | ☑ | [05-grid-board-backtracking/12-n-queens.md](05-grid-board-backtracking/12-n-queens.md) |
+| 13 | N-Queens II | LC150 | 52 | Hard | Stretch | Low | ☑ | [05-grid-board-backtracking/13-n-queens-ii.md](05-grid-board-backtracking/13-n-queens-ii.md) |
 
 > **Why #11 and #12 are both Core:** Word Search is "explore in 4 directions, mark/unmark as you go" — a
 > different mechanic from N-Queens, which is "commit to one placement per row, check row/column/diagonal
@@ -130,10 +135,10 @@ a mechanic a Core problem already teaches, with no new logic of its own.
 
 **Pattern:** construct a result string one choice at a time from a small fixed set of options per position, pruning branches that can't lead to a valid result.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 14 | Letter Combinations of a Phone Number | **LC150 + NC150** | 17 | Medium | Core | ☑ | [06-build-a-string-backtracking/14-letter-combinations-of-a-phone-number.md](06-build-a-string-backtracking/14-letter-combinations-of-a-phone-number.md) |
-| 15 | Generate Parentheses | LC150 | 22 | Medium | Core | ☑ | [06-build-a-string-backtracking/15-generate-parentheses.md](06-build-a-string-backtracking/15-generate-parentheses.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | Likelihood (L3) | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 14 | Letter Combinations of a Phone Number | **LC150 + NC150** | 17 | Medium | Core | High | ☑ | [06-build-a-string-backtracking/14-letter-combinations-of-a-phone-number.md](06-build-a-string-backtracking/14-letter-combinations-of-a-phone-number.md) |
+| 15 | Generate Parentheses | LC150 | 22 | Medium | Core | High | ☑ | [06-build-a-string-backtracking/15-generate-parentheses.md](06-build-a-string-backtracking/15-generate-parentheses.md) |
 
 > **Why #14 and #15 are both Core:** #14 branches over a fixed external mapping (digit → letters) with no
 > validity constraint beyond length. #15 instead tracks two running counters (open/close count) as its pruning
