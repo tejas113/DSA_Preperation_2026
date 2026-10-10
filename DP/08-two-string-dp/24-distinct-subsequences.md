@@ -6,24 +6,24 @@
 
 ## 1. Intuition
 
-Count how many different ways `t` can be picked out of `s` as a subsequence. Compare the **last** characters. If `s[i]` can't match `t[j]`, that character of `s` is useless, so skip it. If they **do** match, you have two options: use this `s[i]` to match `t[j]` (both shrink), or skip it anyway and hope an earlier character matches `t[j]` (only `s` shrinks). Add the two counts.
+Count how many different ways `t` can be picked out of `s` as a subsequence. Walk forward through both strings. If `t` is exhausted, that's one way. If `s` is exhausted but `t` isn't, that's zero ways. When the current characters match, you have two options: use this `s[i]` to match `t[j]` (both advance), or skip it anyway and try to match `t[j]` with a later character in `s` (only `s` advances). Add the two counts.
 
-* `dp(i, j)` — the number of ways `t[:j + 1]` appears as a subsequence of `s[:i + 1]`.
-* `if j < 0: return 1` — all of `t` has been matched: that is exactly one way.
-* `if i < 0: return 0` — `s` ran out before `t` was fully matched: no way.
-* `s[i] == t[j]` → `dp(i - 1, j - 1) + dp(i - 1, j)` — **use** `s[i]` for `t[j]`, plus **skip** `s[i]`; both count.
-* else `dp(i - 1, j)` — no match, so `s[i]` has to be skipped.
+* `dp(i, j)` — the number of ways `t[j:]` appears as a subsequence of `s[i:]`.
+* `if j == len(t): return 1` — all of `t` has been matched: that is exactly one way.
+* `if i == len(s): return 0` — `s` ran out before `t` was fully matched: no way.
+* `s[i] == t[j]` → `dp(i + 1, j + 1) + dp(i + 1, j)` — **use** `s[i]` for `t[j]`, plus **skip** `s[i]`; both count.
+* else `dp(i + 1, j)` — no match, so skip `s[i]` and try the next character.
 * `memo[(i, j)]` — many skip/use histories reach the same `(i, j)`, so each is solved once.
 
-**Recall:** match → `dp(i - 1, j - 1) + dp(i - 1, j)`; mismatch → `dp(i - 1, j)`.
+**Recall:** match → `dp(i + 1, j + 1) + dp(i + 1, j)`; mismatch → `dp(i + 1, j)`.
 
 ## 2. Template
 
-* **State:** `dp(i, j)` = number of ways `t[:j + 1]` is a subsequence of `s[:i + 1]`
+* **State:** `dp(i, j)` = number of ways `t[j:]` is a subsequence of `s[i:]`
 * **Choice:** on a match, use `s[i]` for `t[j]` or skip it; on a mismatch, skip it
-* **Recurrence:** match → `dp(i - 1, j - 1) + dp(i - 1, j)`; mismatch → `dp(i - 1, j)`
-* **Base:** `dp(·, -1) = 1` (all of `t` matched), `dp(-1, j ≥ 0) = 0` (`s` used up)
-* **Guard:** check `j < 0` **before** `i < 0`, because an empty `t` counts as one way even when `s` is also empty
+* **Recurrence:** match → `dp(i + 1, j + 1) + dp(i + 1, j)`; mismatch → `dp(i + 1, j)`
+* **Base:** `dp(i, len(t)) = 1` (all of `t` matched), `dp(len(s), j > 0) = 0` (`s` used up)
+* **Guard:** check `j == len(t)` **before** `i == len(s)`, because an empty `t` counts as one way even when `s` is also empty
 
 ## 3. Code
 
@@ -32,28 +32,29 @@ Count how many different ways `t` can be picked out of `s` as a subsequence. Com
 ```python
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
+        m = len(s)
+        n = len(t)
         memo = {}
 
-        def dp(i: int, j: int) -> int:
-            # Base Case 1: Target string t is fully matched
-            if j < 0:
+        def dp(i, j):
+            if j == n:
                 return 1
-
-            # Base Case 2: Source string s is exhausted before t is matched
-            if i < 0:
+            
+            if i == m:
                 return 0
 
             if (i, j) in memo:
                 return memo[(i, j)]
 
             if s[i] == t[j]:
-                memo[(i, j)] = dp(i - 1, j - 1) + dp(i - 1, j)
+                memo[(i, j)] = dp(i + 1, j + 1) + dp(i + 1, j)
+
             else:
-                memo[(i, j)] = dp(i - 1, j)
+                memo[(i, j)] = dp(i + 1, j)
 
             return memo[(i, j)]
 
-        return dp(len(s) - 1, len(t) - 1)
+        return dp(0, 0)
 ```
 
 ### Alternative: Tabulation
@@ -146,6 +147,6 @@ The answer is `5`. For example, the last `g` matches `t[2]`, so the count is `4`
 
 ## 6. Recall (30 seconds)
 
-* **State:** `dp(i, j)` = ways `t[:j + 1]` appears as a subsequence of `s[:i + 1]`.
-* **Transition:** match → `dp(i - 1, j - 1) + dp(i - 1, j)`; mismatch → `dp(i - 1, j)`; `dp(·, -1) = 1`, `dp(-1, ·) = 0`.
+* **State:** `dp(i, j)` = ways `t[j:]` appears as a subsequence of `s[i:]`.
+* **Transition:** match → `dp(i + 1, j + 1) + dp(i + 1, j)`; mismatch → `dp(i + 1, j)`; `dp(i, n) = 1`, `dp(m, j>0) = 0`.
 * **One-row table:** loop `j` **downward** so `dp[j - 1]` still holds the previous row.

@@ -10,21 +10,22 @@ For every cell, ask: what is the side of the biggest all-`1` square whose **bott
 
 * `dp(r, c)` — the side length of the largest all-`1` square ending at `(r, c)`.
 * `if r < 0 or c < 0 or matrix[r][c] == '0': return 0` — off the grid, or a `0` cell, can't be part of any square.
-* `up`, `left`, `diag` — the squares ending at the three neighbours.
-* `1 + min(up, left, diag)` — the square is limited by the smallest neighbour; `+ 1` is the current cell.
-* the outer double loop with `max_side` — the biggest square can end at any cell, so ask `dp` for every cell (unlike Unique Paths, whose answer is one corner).
+* `left`, `up`, `vertical` — the squares ending at the three neighbours (left, up, diagonal).
+* `1 + min(left, up, vertical)` — the square is limited by the smallest neighbour; `+ 1` is the current cell.
+* `nonlocal max_side` — track the best side length globally as we compute each cell.
+* the outer double loop — the biggest square can end at any cell, so ask `dp` for every cell (unlike Unique Paths, whose answer is one corner).
 * `return max_side * max_side` — the problem wants the **area**, not the side.
 * `memo[(r, c)]` — each cell is computed once, even though neighbours ask for it repeatedly.
 
-**Recall:** `dp(r, c) = 1 + min(up, left, diag)` for a `'1'` cell, `0` for a `'0'`.
+**Recall:** `dp(r, c) = 1 + min(left, up, vertical)` for a `'1'` cell, `0` for a `'0'`.
 
 ## 2. Template
 
 * **State:** `dp(r, c)` = side of the largest all-`1` square with bottom-right corner `(r, c)`
 * **Choice:** none — it is decided by the three neighbouring squares
-* **Recurrence:** `dp(r, c) = 1 + min(dp(r - 1, c), dp(r, c - 1), dp(r - 1, c - 1))`
+* **Recurrence:** `dp(r, c) = 1 + min(dp(r, c - 1), dp(r - 1, c), dp(r - 1, c - 1))` (left, up, vertical)
 * **Base:** a `'0'` cell or off-grid gives `0`
-* **Guard:** track `max_side` over every cell, and return `max_side * max_side`
+* **Guard:** use `nonlocal max_side` to track the best while computing, and return `max_side * max_side`
 
 ## 3. Code
 
@@ -33,27 +34,31 @@ For every cell, ask: what is the side of the biggest all-`1` square whose **bott
 ```python
 class Solution:
     def maximalSquare(self, matrix: list[list[str]]) -> int:
-        memo = {}
-        max_side = 0
+        m = len(matrix)
+        n = len(matrix[0])
 
-        def dp(r: int, c: int) -> int:
-            # Base Case: Out of bounds or cell is '0'
+        max_side = 0
+        memo = {}
+
+        def dp(r, c):
+            nonlocal max_side
             if r < 0 or c < 0 or matrix[r][c] == '0':
                 return 0
 
             if (r, c) in memo:
                 return memo[(r, c)]
 
-            up = dp(r - 1, c)
             left = dp(r, c - 1)
-            diag = dp(r - 1, c - 1)
+            up = dp(r - 1, c)
+            vertical = dp(r - 1, c - 1)
 
-            memo[(r, c)] = 1 + min(up, left, diag)
+            memo[(r, c)] = 1 + min(left, up, vertical)
+            max_side = max(max_side, memo[(r, c)])
             return memo[(r, c)]
 
-        for r in range(len(matrix)):
-            for c in range(len(matrix[0])):
-                max_side = max(max_side, dp(r, c))
+        for i in range(m):
+            for j in range(n):
+                dp(i, j)
 
         return max_side * max_side
 ```
@@ -128,7 +133,7 @@ matrix                 dp (largest square ending at each cell)
 1 0 0 1 0              1 0 0 1 0
 ```
 
-The largest side is `2` (at row 2, columns 3–4), so the area is `2 × 2 = 4`. The cell `(2, 3)` is `1 + min(up=1, left=1, diag=1) = 2`.
+The largest side is `2` (at row 2, columns 3–4), so the area is `2 × 2 = 4`. The cell `(2, 3)` is `1 + min(left=1, up=1, vertical=1) = 2`.
 
 ## 5. Complexity
 
@@ -139,5 +144,5 @@ The largest side is `2` (at row 2, columns 3–4), so the area is `2 × 2 = 4`. 
 ## 6. Recall (30 seconds)
 
 * **State:** `dp(r, c)` = side of the largest all-`1` square ending at `(r, c)`.
-* **Transition:** `1 + min(up, left, diag)` for a `'1'`, else `0`.
-* **Pitfalls:** ask `dp` for **every** cell and take the max, and return the **area** (`side * side`).
+* **Transition:** `1 + min(left, up, vertical)` for a `'1'`, else `0`; track `max_side` with `nonlocal`.
+* **Pitfalls:** ask `dp` for **every** cell, and return the **area** (`max_side * max_side`).

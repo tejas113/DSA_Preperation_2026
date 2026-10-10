@@ -31,11 +31,13 @@ Same idea as Longest Palindromic Substring, with a different question: instead o
 ```python
 class Solution:
     def countSubstrings(self, s: str) -> int:
+
         n = len(s)
         total_palindromes = 0
 
-        def expand(left: int, right: int) -> int:
+        def expand(left, right):
             count = 0
+
             while left >= 0 and right < n and s[left] == s[right]:
                 count += 1
                 left -= 1
@@ -43,9 +45,7 @@ class Solution:
             return count
 
         for i in range(n):
-            # Odd length palindromes (e.g., "a", "aba")
             total_palindromes += expand(i, i)
-            # Even length palindromes (e.g., "aa", "abba")
             total_palindromes += expand(i, i + 1)
 
         return total_palindromes

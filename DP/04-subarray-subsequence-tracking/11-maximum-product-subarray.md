@@ -12,7 +12,7 @@ Products behave differently from sums: two negatives make a positive, and a zero
 * `suff` — the same product from the right (`nums[n - 1 - i]`).
 * why both — with an odd number of negatives, dropping the tail keeps a **prefix** and dropping the head keeps a **suffix**; the best is one of those two.
 * `if pre == 0: pre = 1` (and the same for `suff`) — a zero kills every product through it, so start fresh after it.
-* `ans = max(ans, pre, suff)` — keep the best product seen from either side. It starts at `-inf` so a lone negative number still counts.
+* `max_product = max(max_product, pre, suff)` — keep the best product seen from either side. It starts at `-inf` so a lone negative number still counts.
 
 **Recall:** the best subarray is a prefix or suffix of a zero-free run, so scan from both ends and reset at zeros.
 
@@ -20,8 +20,8 @@ Products behave differently from sums: two negatives make a positive, and a zero
 
 * **State:** `pre` / `suff` = running product from the left / from the right of the current zero-free run
 * **Choice:** keep multiplying, or restart from 1 after a zero
-* **Recurrence:** `pre *= nums[i]`, `suff *= nums[n - 1 - i]`, `ans = max(ans, pre, suff)`
-* **Base:** `pre = suff = 1`, `ans = -inf`
+* **Recurrence:** `pre *= nums[i]`, `suff *= nums[n - 1 - i]`, `max_product = max(max_product, pre, suff)`
+* **Base:** `pre = suff = 1`, `max_product = -inf`
 * **Guard:** a zero resets that side's product to 1, since it splits the array into independent runs
 
 ## 3. Code
@@ -33,11 +33,10 @@ class Solution:
     def maxProduct(self, nums: list[int]) -> int:
         pre = 1
         suff = 1
-        ans = float('-inf')
+        max_product = float('-inf')
         n = len(nums)
 
         for i in range(n):
-            # Reset prefix/suffix product if previous product was 0
             if pre == 0:
                 pre = 1
             if suff == 0:
@@ -45,10 +44,9 @@ class Solution:
 
             pre *= nums[i]
             suff *= nums[n - 1 - i]
+            max_product = max(max_product, pre, suff)
 
-            ans = max(ans, pre, suff)
-
-        return ans
+        return max_product
 ```
 
 ### Alternative: Running min/max DP
@@ -78,7 +76,7 @@ class Solution:
 
 ## 4. Dry Run (`nums = [1, 0, -3, 4, -2]`)
 
-| `i` | `nums[i]` | `pre` | `nums[n-1-i]` | `suff` | `ans` |
+| `i` | `nums[i]` | `pre` | `nums[n-1-i]` | `suff` | `max_product` |
 |---|---|---|---|---|---|
 | 0 | 1 | 1 | -2 | -2 | 1 |
 | 1 | 0 | 0 | 4 | -8 | 1 |
@@ -90,7 +88,7 @@ Both scans find the best run `-3 · 4 · -2 = 24`, `suff` at `i = 2` and `pre` a
 
 ## 5. Complexity
 
-* **States:** nothing is stored, only the three running variables `pre`, `suff` and `ans`.
+* **States:** nothing is stored, only the three running variables `pre`, `suff` and `max_product`.
 * **Time:** O(n) — one loop, and each iteration does two multiplications and one `max`.
 * **Space:** O(1) — just those three variables (the min/max DP is O(n) time, O(1) space too).
 

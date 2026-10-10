@@ -9,11 +9,13 @@
 From a cell you may step up, down, left or right, but only onto a **strictly larger** value. The longest path starting at a cell is 1 (the cell itself) plus the longest path from its best larger neighbour. There is no simple top-left-to-bottom-right order here, since the order depends on the values, so let a DFS discover it and **cache** every cell's answer.
 
 * `dfs(r, c)` — the length of the longest strictly increasing path that **starts** at `(r, c)`.
-* `res = 1` — the cell on its own is a path of length 1 (used when no neighbour is larger).
-* the four-direction loop with `matrix[nr][nc] > matrix[r][c]` — only step onto strictly larger neighbours. Because values only go up, a path can never return to a cell, so **no `visited` set is needed**.
-* `res = max(res, 1 + dfs(nr, nc))` — take the best larger neighbour and add one for the current cell.
+* `val = matrix[r][c]` — store the current cell's value for the direction checks.
+* `up`, `down`, `left`, `right` — explore the four directions only if the neighbour exists and is strictly larger than `val`.
+* inline `if` checks — `dfs(nr, nc) if bounds_ok and matrix[nr][nc] > val else 0` — step only onto strictly larger neighbours. Because values only go up, a path can never return to a cell, so **no `visited` set is needed**.
+* `1 + max(up, down, left, right)` — take the best larger neighbour and add one for the current cell.
+* `nonlocal max_path` and update in the dfs — track the longest path found so far globally.
 * `if (r, c) in memo: return memo[(r, c)]` — a cell reached from many directions is solved once. This is what makes the whole thing O(m × n) instead of exponential.
-* the outer double loop with `maxi` — a path can start anywhere, so try every cell.
+* the outer double loop — a path can start anywhere, so try every cell.
 
 **Recall:** `dfs(r, c) = 1 + max(dfs(larger neighbour))`, or `1` if none is larger.
 
@@ -21,9 +23,9 @@ From a cell you may step up, down, left or right, but only onto a **strictly lar
 
 * **State:** `dfs(r, c)` = longest strictly increasing path starting at `(r, c)`
 * **Choice:** which strictly larger neighbour to step onto (up, down, left, right)
-* **Recurrence:** `dfs(r, c) = 1 + max(dfs(nr, nc))` over neighbours with a larger value
-* **Base:** no larger neighbour → `1`
-* **Guard:** strictly increasing means no cycles, so no `visited` set
+* **Recurrence:** `dfs(r, c) = 1 + max(up, down, left, right)`, where each direction is `dfs(nr, nc)` if valid and larger, else `0`
+* **Base:** no larger neighbour → `0` for each direction, so `1 + max(0, 0, 0, 0) = 1`
+* **Guard:** strictly increasing means no cycles, so no `visited` set; use `nonlocal max_path` to track the overall max
 
 ## 3. Code
 
@@ -35,28 +37,33 @@ class Solution:
         if not matrix or not matrix[0]:
             return 0
 
-        rows, cols = len(matrix), len(matrix[0])
+        m, n = len(matrix), len(matrix[0])
         memo = {}
+        max_path = 0
 
-        def dfs(r: int, c: int) -> int:
+        def dfs(r, c):
+            nonlocal max_path
+
             if (r, c) in memo:
                 return memo[(r, c)]
 
-            res = 1
-            for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-                nr, nc = r + dr, c + dc
-                if 0 <= nr < rows and 0 <= nc < cols and matrix[nr][nc] > matrix[r][c]:
-                    res = max(res, 1 + dfs(nr, nc))
+            val = matrix[r][c]
 
-            memo[(r, c)] = res
+            up = dfs(r - 1, c) if r - 1 >= 0 and matrix[r - 1][c] > val else 0
+            down = dfs(r + 1, c) if r + 1 < m and matrix[r + 1][c] > val else 0
+            left = dfs(r, c - 1) if c - 1 >= 0 and matrix[r][c - 1] > val else 0
+            right = dfs(r, c + 1) if c + 1 < n and matrix[r][c + 1] > val else 0
+
+            memo[(r, c)] = 1 + max(up, down, left, right)
+            max_path = max(max_path, memo[(r, c)])
+
             return memo[(r, c)]
 
-        maxi = 0
-        for r in range(rows):
-            for c in range(cols):
-                maxi = max(maxi, dfs(r, c))
+        for i in range(m):
+            for j in range(n):
+                dfs(i, j)
 
-        return maxi
+        return max_path
 ```
 
 ### Alternative: Tabulation

@@ -10,9 +10,9 @@ Every palindrome is symmetric around a **center**. The center is either a single
 
 * `expand(left, right)` — starts at a center and moves the two pointers outward while `s[left] == s[right]`.
 * `return s[left + 1:right]` — the loop stops one step **past** the palindrome, so the palindrome is `s[left + 1 : right]`.
-* `expand(i, i)` — odd-length palindromes, with the center on character `i`.
-* `expand(i, i + 1)` — even-length palindromes, with the center in the gap between `i` and `i + 1`.
-* `if len(odd) > res_len` — keep only the longest; the strict `>` keeps the earliest one when there is a tie.
+* `p1 = expand(i, i)` — odd-length palindromes, with the center on character `i`.
+* `p2 = expand(i, i + 1)` — even-length palindromes, with the center in the gap between `i` and `i + 1`.
+* `if len(p1) > res_len` (and similarly for `p2`) — keep only the longest; the strict `>` keeps the earliest one when there is a tie.
 
 **Recall:** for each of the `2n - 1` centers, expand outward while the ends match; keep the longest.
 
@@ -31,28 +31,28 @@ Every palindrome is symmetric around a **center**. The center is either a single
 ```python
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        res = ""
-        res_len = 0
 
-        def expand(left: int, right: int) -> str:
+        res_len = 0
+        res = ""
+
+        def expand(left, right):
             while left >= 0 and right < len(s) and s[left] == s[right]:
                 left -= 1
                 right += 1
             return s[left + 1:right]
-
+        
         for i in range(len(s)):
-            # Odd length palindromes (e.g., "a", "aba")
-            odd = expand(i, i)
-            if len(odd) > res_len:
-                res = odd
-                res_len = len(odd)
 
-            # Even length palindromes (e.g., "aa", "abba")
-            even = expand(i, i + 1)
-            if len(even) > res_len:
-                res = even
-                res_len = len(even)
+            p1 = expand(i, i)
+            if len(p1) > res_len:
+                res_len = len(p1)
+                res = p1
 
+            p2 = expand(i, i + 1)
+            if len(p2) > res_len:
+                res_len = len(p2)
+                res = p2
+        
         return res
 ```
 
