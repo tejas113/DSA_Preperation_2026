@@ -7,16 +7,18 @@
 
 | # | Story slot | Answers these questions | My story (1 line) |
 |---|---|---|---|
-| 1 | **Proudest technical project** | A3, A9, A14, C2, E7, E11 | |
-| 2 | **A real failure / mistake** | D1, D2, D6, D7, B4 | |
-| 3 | **Conflict with a peer** | B1, B3, B11 | |
-| 4 | **Pushed back on someone senior / did the right thing** | B2, B12, C8, C7 | |
-| 5 | **Led without the title** | C1, C3, C4, C10, E8 | |
-| 6 | **Ambiguity / decided without full info** | E1, E9, E13 | |
-| 7 | **Deadline, pressure, tradeoff** | E2, E3, E4, E14, D8 | |
-| 8 | **Helped / taught / included someone** | B5, B6, B13, C5, C9 | |
-| 9 | **Learned fast / took a risk / aimed high** | C6, D3, D4, D5, D9, E12 | |
-| 10 | **User focus / data / creative fix** | E5, E6, E10, B7, B10 | |
+| 1 | **Proudest technical project** | A3, A9, A14, C2, E7, E11 | ✅ **S01** manuscript parser takeover |
+| 2 | **A real failure / mistake** | D1, D2, D6, D7, B4 | ❌ **MISSING. Needed first.** |
+| 3 | **Conflict with a peer** | B1, B3, B11 | ⚠️ only S03 (that's with a senior). Need a peer one |
+| 4 | **Pushed back on someone senior / did the right thing** | B2, B12, C8, C7 | ✅ **S03** deterministic vs agentic experiment |
+| 5 | **Led without the title** | C1, C3, C4, C10, E8 | ✅ **S04** daily ML sync + bridge · **S05** team 7 → 3 |
+| 6 | **Ambiguity / decided without full info** | E1, E9, E13 | ✅ **S01** (parsing) · **S08** (agent harness) |
+| 7 | **Deadline, pressure, tradeoff** | E2, E3, E4, E14, D8 | ✅ **S07** same-day prototype · **S05** |
+| 8 | **Helped / taught / included someone** | B5, B6, B13, C5, C9 | ⚠️ **S06** intern (needs details) |
+| 9 | **Learned fast / took a risk / aimed high** | C6, D3, D4, D5, D9, E12 | ✅ **S02** vectorless RAG · **S08** let go of my parser |
+| 10 | **User focus / data / creative fix** | E5, E6, E10, B7, B10 | ⚠️ data: S03 · creative: S02 · **user focus missing** |
+
+Story files: `03-story-bank/S01…S08`. Every question file also has a **➡️ Use story:** line.
 
 There's **one** behavioral round (~45 min, 4–6 main questions), so 10 stories gives you plenty of backups.
 Never use the same *moment* twice in the round. If a question comes up that you haven't seen,

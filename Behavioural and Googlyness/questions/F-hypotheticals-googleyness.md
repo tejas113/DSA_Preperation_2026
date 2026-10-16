@@ -417,6 +417,7 @@ Success: the project continues with a realistic adjusted plan, and the system is
 
 **Key moves:** before they leave: volunteer for structured knowledge transfer, capture the *why* → after: code/docs/history/neighbours/quick questions → tell lead the timeline risk honestly → fix the root cause: docs, runbooks, at least two people
 
+**➡️ Use story:** 🔗 real example hook: S01 (the senior MLE went on leave and I took over parsing)
 **My answer:**
 
 **Feedback:**
@@ -588,6 +589,7 @@ Success: fewer blocked handoffs, less rework, and both sides feeling included in
 
 **Key moves:** diagnose what exactly is breaking → decisions in writing → daily handoff notes → rotate meeting times (fairness) → protected overlap window → trial, then retro
 
+**➡️ Use story:** 🔗 real example hook: S04 (onshore/offshore bridge)
 **My answer:**
 
 **Feedback:**

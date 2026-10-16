@@ -33,7 +33,7 @@ Google's 4 hiring attributes (every round contributes to the packet the hiring c
 3. **No real failure**: a success dressed up as a failure, or a weakness spun into a strength
 4. **Playing it safe on hypotheticals**: take a stand, give reasoning, stay open to pushback
 
-## Answer shape: SPSIL (a skeleton, not a script)
+## Answer shape: STAR + Lesson (a skeleton, not a script). SPSIL below is the same idea
 - **S**ituation: under 30 seconds, only the context the story needs
 - **P**roblem: what was at stake
 - **S**olution: what *I* did and *why*, including the options I rejected
@@ -52,7 +52,7 @@ Google's 4 hiring attributes (every round contributes to the packet the hiring c
 
 ## The Plan
 
-### Phase 1 – Mine raw experiences → `02-raw-experiences.md`
+### Phase 1 – Mine raw experiences → `02-my-experiences.md`
 Claude interviews me about everything (internships, jobs, college projects, hackathons, clubs, team
 fights, deadlines blown, things I'm proud of, things I regret). Messy brain-dump, no polishing.
 Target: **15–20 raw moments.**
@@ -97,8 +97,8 @@ questions/                 ← full question bank: guidance + sample + "My answe
   E-ambiguity-and-execution.md
   F-hypotheticals-googleyness.md   ← "what would you do" questions
   G-questions-to-ask-them.md
-02-raw-experiences.md      ← brain dump
-03-story-bank/             ← one file per story (anchors only)
+02-my-experiences.md       ← YOU explain real experiences here (10 slots)
+03-story-bank/             ← Claude turns each into a STAR story (_STAR-template.md)
 04-coverage-matrix.md      ← stories × signals grid
 05-intro-and-why-google.md
 06-hypotheticals.md
