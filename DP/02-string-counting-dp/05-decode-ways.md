@@ -70,7 +70,7 @@ Four moves turn the memo into a table: **cache → array**, **base cases → sta
 | `dp(i)` asks for **larger** positions | `for i in range(n - 1, -1, -1)` — fill from the end backward |
 | `return dp(0)` | `return dp[0]` |
 
-**Loop-order rule:** this time the memo asks for larger indexes (`i + 1`, `i + 2`), so the table is filled from the back, the opposite direction from Climbing Stairs. The rule is the same: fill what the recursion asks for first.
+**Loop-order rule:** the memo asks for larger indexes (`i + 1`, `i + 2`), so the table is filled from the back, the same direction as Climbing Stairs. The rule is always the same: fill what the recursion asks for first.
 
 ```python
 class Solution:

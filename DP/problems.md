@@ -30,18 +30,30 @@ enough to walk into an interview feeling ready. **Stretch** — a genuine second
 Core problem *already* teaches, with no new transition logic of its own. Do these for depth and for a
 permanent reference, not because they're required.
 
+**L3 Likelihood:** my judgement of how likely each problem (or a close variant) is to come up **if your
+Google L3 round is a DP question**. There is **no verified Google data** behind it. It's based on how often
+the pattern shows up in public interview reports and how well the problem fits a 45-minute L3 round
+(Medium-difficulty, one clean state definition, follow-ups on space). High means do it first, Medium means
+do it next, and Low means do it last or only if time allows.
+
+| Rating | Count | What it means for DP |
+|---|---|---|
+| **High** | 9 | The classic 1D / knapsack / two-string / grid-DFS shapes. Most likely to appear as-is or as a light disguise. |
+| **Medium** | 12 | Same patterns as a High problem with a twist (circular array, counting instead of min, a grid variant). Common as follow-ups. |
+| **Low** | 8 | Hard-level transitions (regex, interval DP, k-transaction stocks) or near-duplicates. Rare at L3, but the pattern is still worth knowing. |
+
 ---
 
 ## Topic 1 — 1D DP: Linear Sequences
 
 **Pattern:** the answer at position `i` depends on a small fixed window of earlier positions (`i-1`, `i-2`, ...). Fibonacci is the "hello world" of this whole repo.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 1 | Climbing Stairs | **LC150 + NC150** | 70 | Easy | Core | ☑ | [01-climbing-stairs.md](01-1d-dp-linear-sequences/01-climbing-stairs.md) |
-| 2 | Min Cost Climbing Stairs | NC150 | 746 | Easy | Stretch | ☑ | [02-min-cost-climbing-stairs.md](01-1d-dp-linear-sequences/02-min-cost-climbing-stairs.md) |
-| 3 | House Robber | **LC150 + NC150** | 198 | Medium | Core | ☑ | [03-house-robber.md](01-1d-dp-linear-sequences/03-house-robber.md) |
-| 4 | House Robber II | NC150 | 213 | Medium | Core | ☑ | [04-house-robber-ii.md](01-1d-dp-linear-sequences/04-house-robber-ii.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Climbing Stairs | **LC150 + NC150** | 70 | Easy | Core | Medium | ☑ | [01-climbing-stairs.md](01-1d-dp-linear-sequences/01-climbing-stairs.md) |
+| 2 | Min Cost Climbing Stairs | NC150 | 746 | Easy | Stretch | Low | ☑ | [02-min-cost-climbing-stairs.md](01-1d-dp-linear-sequences/02-min-cost-climbing-stairs.md) |
+| 3 | House Robber | **LC150 + NC150** | 198 | Medium | Core | High | ☑ | [03-house-robber.md](01-1d-dp-linear-sequences/03-house-robber.md) |
+| 4 | House Robber II | NC150 | 213 | Medium | Core | Medium | ☑ | [04-house-robber-ii.md](01-1d-dp-linear-sequences/04-house-robber-ii.md) |
 
 ---
 
@@ -49,10 +61,10 @@ permanent reference, not because they're required.
 
 **Pattern:** `dp[i]` = "in how many ways (or: can it at all) can the string up to index `i` be validly split/decoded." Transitions look back at the last 1–2 characters or check every valid dictionary word ending at `i`.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 5 | Decode Ways | NC150 | 91 | Medium | Core | ☑ | [05-decode-ways.md](02-string-counting-dp/05-decode-ways.md) |
-| 6 | Word Break | **LC150 + NC150** | 139 | Medium | Core | ☑ | [06-word-break.md](02-string-counting-dp/06-word-break.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 5 | Decode Ways | NC150 | 91 | Medium | Core | High | ☑ | [05-decode-ways.md](02-string-counting-dp/05-decode-ways.md) |
+| 6 | Word Break | **LC150 + NC150** | 139 | Medium | Core | High | ☑ | [06-word-break.md](02-string-counting-dp/06-word-break.md) |
 
 ---
 
@@ -60,12 +72,12 @@ permanent reference, not because they're required.
 
 **Pattern:** for each item, decide take-or-skip (0/1) or take-any-number-of-times (unbounded), building toward a target sum or capacity. The single most-reused shape in interview DP.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 7 | Coin Change | **LC150 + NC150** | 322 | Medium | Core | ☑ | [07-coin-change.md](03-knapsack-dp/07-coin-change.md) |
-| 8 | Coin Change II | NC150 | 518 | Medium | Core | ☑ | [08-coin-change-ii.md](03-knapsack-dp/08-coin-change-ii.md) |
-| 9 | Partition Equal Subset Sum | NC150 | 416 | Medium | Core | ☑ | [09-partition-equal-subset-sum.md](03-knapsack-dp/09-partition-equal-subset-sum.md) |
-| 10 | Target Sum | NC150 | 494 | Medium | Core | ☑ | [10-target-sum.md](03-knapsack-dp/10-target-sum.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 7 | Coin Change | **LC150 + NC150** | 322 | Medium | Core | High | ☑ | [07-coin-change.md](03-knapsack-dp/07-coin-change.md) |
+| 8 | Coin Change II | NC150 | 518 | Medium | Core | Medium | ☑ | [08-coin-change-ii.md](03-knapsack-dp/08-coin-change-ii.md) |
+| 9 | Partition Equal Subset Sum | NC150 | 416 | Medium | Core | Medium | ☑ | [09-partition-equal-subset-sum.md](03-knapsack-dp/09-partition-equal-subset-sum.md) |
+| 10 | Target Sum | NC150 | 494 | Medium | Core | Medium | ☑ | [10-target-sum.md](03-knapsack-dp/10-target-sum.md) |
 
 ---
 
@@ -73,10 +85,10 @@ permanent reference, not because they're required.
 
 **Pattern:** walk the array once, carrying forward a running best (or a couple of running bests) that can flip sign or reset depending on the current element.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 11 | Maximum Product Subarray | NC150 | 152 | Medium | Core | ☑ | [11-maximum-product-subarray.md](04-subarray-subsequence-tracking/11-maximum-product-subarray.md) |
-| 12 | Longest Increasing Subsequence | **LC150 + NC150** | 300 | Medium | Core | ☑ | [12-longest-increasing-subsequence.md](04-subarray-subsequence-tracking/12-longest-increasing-subsequence.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 11 | Maximum Product Subarray | NC150 | 152 | Medium | Core | Medium | ☑ | [11-maximum-product-subarray.md](04-subarray-subsequence-tracking/11-maximum-product-subarray.md) |
+| 12 | Longest Increasing Subsequence | **LC150 + NC150** | 300 | Medium | Core | High | ☑ | [12-longest-increasing-subsequence.md](04-subarray-subsequence-tracking/12-longest-increasing-subsequence.md) |
 
 ---
 
@@ -84,13 +96,13 @@ permanent reference, not because they're required.
 
 **Pattern:** `dp[r][c]` depends on `dp[r-1][c]` and `dp[r][c-1]` (or similar neighbors) — the 2D generalization of Topic 1's "look back a fixed window" idea.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 13 | Unique Paths | NC150 | 62 | Medium | Core | ☑ | [13-unique-paths.md](05-grid-path-dp/13-unique-paths.md) |
-| 14 | Unique Paths II | LC150 | 63 | Medium | Stretch | ☑ | [14-unique-paths-ii.md](05-grid-path-dp/14-unique-paths-ii.md) |
-| 15 | Minimum Path Sum | LC150 | 64 | Medium | Core | ☑ | [15-minimum-path-sum.md](05-grid-path-dp/15-minimum-path-sum.md) |
-| 16 | Triangle | LC150 | 120 | Medium | Stretch | ☑ | [16-triangle.md](05-grid-path-dp/16-triangle.md) |
-| 17 | Maximal Square | LC150 | 221 | Medium | Core | ☑ | [17-maximal-square.md](05-grid-path-dp/17-maximal-square.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 13 | Unique Paths | NC150 | 62 | Medium | Core | Medium | ☑ | [13-unique-paths.md](05-grid-path-dp/13-unique-paths.md) |
+| 14 | Unique Paths II | LC150 | 63 | Medium | Stretch | Medium | ☑ | [14-unique-paths-ii.md](05-grid-path-dp/14-unique-paths-ii.md) |
+| 15 | Minimum Path Sum | LC150 | 64 | Medium | Core | Medium | ☑ | [15-minimum-path-sum.md](05-grid-path-dp/15-minimum-path-sum.md) |
+| 16 | Triangle | LC150 | 120 | Medium | Stretch | Low | ☑ | [16-triangle.md](05-grid-path-dp/16-triangle.md) |
+| 17 | Maximal Square | LC150 | 221 | Medium | Core | Medium | ☑ | [17-maximal-square.md](05-grid-path-dp/17-maximal-square.md) |
 
 ---
 
@@ -98,9 +110,9 @@ permanent reference, not because they're required.
 
 **Pattern:** the grid isn't a simple top-left-to-bottom-right sweep — the dependency order is irregular, so you DFS from each cell and cache the result instead of filling a table in a fixed order.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 18 | Longest Increasing Path in a Matrix | NC150 | 329 | Hard | Core | ☑ | [18-longest-increasing-path-in-a-matrix.md](06-memoized-dfs-on-grid/18-longest-increasing-path-in-a-matrix.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 18 | Longest Increasing Path in a Matrix | NC150 | 329 | Hard | Core | High | ☑ | [18-longest-increasing-path-in-a-matrix.md](06-memoized-dfs-on-grid/18-longest-increasing-path-in-a-matrix.md) |
 
 ---
 
@@ -108,10 +120,10 @@ permanent reference, not because they're required.
 
 **Pattern:** `dp[i][j]` = a fact about the substring spanning `i..j`, built from the inside out (shorter spans first).
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 19 | Longest Palindromic Substring | **LC150 + NC150** | 5 | Medium | Core | ☑ | [19-longest-palindromic-substring.md](07-palindrome-dp/19-longest-palindromic-substring.md) |
-| 20 | Palindromic Substrings | NC150 | 647 | Medium | Stretch | ☑ | [20-palindromic-substrings.md](07-palindrome-dp/20-palindromic-substrings.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 19 | Longest Palindromic Substring | **LC150 + NC150** | 5 | Medium | Core | High | ☑ | [19-longest-palindromic-substring.md](07-palindrome-dp/19-longest-palindromic-substring.md) |
+| 20 | Palindromic Substrings | NC150 | 647 | Medium | Stretch | Medium | ☑ | [20-palindromic-substrings.md](07-palindrome-dp/20-palindromic-substrings.md) |
 
 ---
 
@@ -119,13 +131,13 @@ permanent reference, not because they're required.
 
 **Pattern:** `dp[i][j]` = a fact about "the first `i` characters of string A vs. the first `j` characters of string B." Almost every two-string interview question reduces to this table.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 21 | Longest Common Subsequence | NC150 | 1143 | Medium | Core | ☑ | [21-longest-common-subsequence.md](08-two-string-dp/21-longest-common-subsequence.md) |
-| 22 | Edit Distance | **LC150 + NC150** | 72 | Medium | Core | ☑ | [22-edit-distance.md](08-two-string-dp/22-edit-distance.md) |
-| 23 | Interleaving String | **LC150 + NC150** | 97 | Medium | Stretch | ☑ | [23-interleaving-string.md](08-two-string-dp/23-interleaving-string.md) |
-| 24 | Distinct Subsequences | NC150 | 115 | Hard | Stretch | ☑ | [24-distinct-subsequences.md](08-two-string-dp/24-distinct-subsequences.md) |
-| 25 | Regular Expression Matching | NC150 | 10 | Hard | Core | ☑ | [25-regular-expression-matching.md](08-two-string-dp/25-regular-expression-matching.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 21 | Longest Common Subsequence | NC150 | 1143 | Medium | Core | High | ☑ | [21-longest-common-subsequence.md](08-two-string-dp/21-longest-common-subsequence.md) |
+| 22 | Edit Distance | **LC150 + NC150** | 72 | Medium | Core | High | ☑ | [22-edit-distance.md](08-two-string-dp/22-edit-distance.md) |
+| 23 | Interleaving String | **LC150 + NC150** | 97 | Medium | Stretch | Low | ☑ | [23-interleaving-string.md](08-two-string-dp/23-interleaving-string.md) |
+| 24 | Distinct Subsequences | NC150 | 115 | Hard | Stretch | Low | ☑ | [24-distinct-subsequences.md](08-two-string-dp/24-distinct-subsequences.md) |
+| 25 | Regular Expression Matching | NC150 | 10 | Hard | Core | Low | ☑ | [25-regular-expression-matching.md](08-two-string-dp/25-regular-expression-matching.md) |
 
 ---
 
@@ -133,11 +145,11 @@ permanent reference, not because they're required.
 
 **Pattern:** define a small set of "states" (holding a share vs. not, cooldown vs. not, transactions used so far) and a `dp` value per state per day. Transitions are just "what could I have done yesterday to be in this state today."
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 26 | Best Time to Buy and Sell Stock III | LC150 | 123 | Hard | Core | ☑ | [26-best-time-to-buy-and-sell-stock-iii.md](09-state-machine-dp-stocks/26-best-time-to-buy-and-sell-stock-iii.md) |
-| 27 | Best Time to Buy and Sell Stock IV | LC150 | 188 | Hard | Stretch | ☑ | [27-best-time-to-buy-and-sell-stock-iv.md](09-state-machine-dp-stocks/27-best-time-to-buy-and-sell-stock-iv.md) |
-| 28 | Best Time to Buy and Sell Stock with Cooldown | NC150 | 309 | Medium | Core | ☑ | [28-best-time-to-buy-and-sell-stock-with-cooldown.md](09-state-machine-dp-stocks/28-best-time-to-buy-and-sell-stock-with-cooldown.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 26 | Best Time to Buy and Sell Stock III | LC150 | 123 | Hard | Core | Low | ☑ | [26-best-time-to-buy-and-sell-stock-iii.md](09-state-machine-dp-stocks/26-best-time-to-buy-and-sell-stock-iii.md) |
+| 27 | Best Time to Buy and Sell Stock IV | LC150 | 188 | Hard | Stretch | Low | ☑ | [27-best-time-to-buy-and-sell-stock-iv.md](09-state-machine-dp-stocks/27-best-time-to-buy-and-sell-stock-iv.md) |
+| 28 | Best Time to Buy and Sell Stock with Cooldown | NC150 | 309 | Medium | Core | Medium | ☑ | [28-best-time-to-buy-and-sell-stock-with-cooldown.md](09-state-machine-dp-stocks/28-best-time-to-buy-and-sell-stock-with-cooldown.md) |
 
 ---
 
@@ -145,9 +157,9 @@ permanent reference, not because they're required.
 
 **Pattern:** `dp[i][j]` = the best answer for the range `i..j`, computed by trying every way to split the range into two (or by picking one element inside the range to resolve last). Ranges are filled in order of increasing length.
 
-| # | Problem | Source | LC # | Difficulty | Priority | Status | File |
-|---|---|---|---|---|---|---|---|
-| 29 | Burst Balloons | NC150 | 312 | Hard | Core | ☑ | [29-burst-balloons.md](10-interval-partition-dp/29-burst-balloons.md) |
+| # | Problem | Source | LC # | Difficulty | Priority | L3 Likelihood | Status | File |
+|---|---|---|---|---|---|---|---|---|
+| 29 | Burst Balloons | NC150 | 312 | Hard | Core | Low | ☑ | [29-burst-balloons.md](10-interval-partition-dp/29-burst-balloons.md) |
 
 ---
 

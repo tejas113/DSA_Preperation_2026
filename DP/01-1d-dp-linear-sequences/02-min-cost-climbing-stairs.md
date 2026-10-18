@@ -6,23 +6,23 @@
 
 ## 1. Intuition
 
-Every step has a price you pay when you **stand on it**, and from there you jump 1 or 2 steps. You may start on step 0 or step 1, and the "top" is one position **past** the last step. The cheapest way to be standing on step `i` is to pay `cost[i]` plus the cheaper of the two places you could have come from.
+Every step has a price you pay when you **stand on it**, and from there you jump 1 or 2 steps. You may start on step 0 or step 1, and the "top" is one position **past** the last step. Standing on step `i`, the cheapest way to finish is to pay `cost[i]` and then jump to whichever of the next two steps is cheaper to finish from.
 
-* `solve(i)` — the cheapest total to land on step `i`, **including** `cost[i]`.
-* `if i == 0 or i == 1: return cost[i]` — you can start on either, so landing there costs only its own price.
-* `cost[i] + min(solve(i - 1), solve(i - 2))` — pay for step `i`, arriving from whichever earlier step was cheaper.
-* `min(solve(n - 1), solve(n - 2))` — the top is past the array, so you reach it from either of the last two steps and pay nothing extra to step off.
-* `memo[i]` — each step's cheapest cost is computed once and reused.
+* `dp(i)` — the cheapest total to get from step `i` to the top, **including** `cost[i]`.
+* `if i >= n: return 0` — you are at (or past) the top, so there is nothing left to pay.
+* `cost[i] + min(dp(i+1), dp(i+2))` — pay for step `i`, then jump 1 or 2, whichever finishes cheaper.
+* `min(dp(0), dp(1))` — you may start on either step 0 or step 1, so take the cheaper start.
+* `memo[i]` — each step's cheapest finish is computed once and reused.
 
-**Recall:** `solve(i) = cost[i] + min(solve(i - 1), solve(i - 2))`; the answer is the min of the last two.
+**Recall:** `dp(i) = cost[i] + min(dp(i + 1), dp(i + 2))`, with `dp(i >= n) = 0`; the answer is `min(dp(0), dp(1))`.
 
 ## 2. Template
 
-* **State:** `solve(i)` = cheapest cost to stand on step `i` (with `cost[i]` paid)
-* **Choice:** you arrived from step `i - 1` or step `i - 2`
-* **Recurrence:** `solve(i) = cost[i] + min(solve(i - 1), solve(i - 2))`
-* **Base:** `solve(0) = cost[0]`, `solve(1) = cost[1]` (free choice of starting step)
-* **Guard:** the answer is **not** `solve(n)` — the top is past the last step, so return `min(solve(n - 1), solve(n - 2))`
+* **State:** `dp(i)` = cheapest cost from step `i` to the top (with `cost[i]` paid)
+* **Choice:** jump to step `i + 1` or step `i + 2`
+* **Recurrence:** `dp(i) = cost[i] + min(dp(i + 1), dp(i + 2))`
+* **Base:** `dp(i >= n) = 0` (at or past the top)
+* **Guard:** the answer is **not** `dp(0)` alone — you can also start on step 1, so return `min(dp(0), dp(1))`
 
 ## 3. Code
 
@@ -31,24 +31,22 @@ Every step has a price you pay when you **stand on it**, and from there you jump
 ```python
 class Solution:
     def minCostClimbingStairs(self, cost: list[int]) -> int:
-        memo = {}
+
         n = len(cost)
+        memo = {}
 
-        def solve(i: int) -> int:
-            # Base Cases: Reaching index 0 or 1 incurs just its own cost
-            if i == 0 or i == 1:
-                return cost[i]
+        def dp(i):
 
-            # Return cached result if already computed
+            if i >= n:
+                return 0
+
             if i in memo:
                 return memo[i]
 
-            # Recurse: Minimum cost to reach step i
-            memo[i] = cost[i] + min(solve(i - 1), solve(i - 2))
+            memo[i] = cost[i] + min(dp(i + 1), dp(i + 2))
             return memo[i]
-
-        # Top of the stairs can be reached from step n-1 or n-2
-        return min(solve(n - 1), solve(n - 2))
+        
+        return min(dp(0), dp(1))
 ```
 
 ### Alternative: Tabulation
@@ -57,70 +55,66 @@ Four moves turn the memo into a table: **cache → array**, **base cases → sta
 
 | Memoization | Tabulation |
 |---|---|
-| `memo = {}` (keyed by step `i`) | `dp = [0] * n` (one slot per step `0..n-1`) |
-| `if i == 0 or i == 1: return cost[i]` | `dp[0] = cost[0]`, `dp[1] = cost[1]` |
-| `cost[i] + min(solve(i - 1), solve(i - 2))` | `dp[i] = cost[i] + min(dp[i - 1], dp[i - 2])` |
-| `solve` asks for smaller steps | `for i in range(2, n)` — smaller steps get filled first |
-| `return min(solve(n - 1), solve(n - 2))` | `return min(dp[n - 1], dp[n - 2])` |
+| `memo = {}` (keyed by step `i`) | `dp = [0] * (n + 2)` (one slot per step `0..n-1`, plus slots `n` and `n + 1` for the top) |
+| `if i >= n: return 0` | `dp[n]` and `dp[n + 1]` stay `0` |
+| `cost[i] + min(dp(i+1), dp(i+2))` | `dp[i] = cost[i] + min(dp[i + 1], dp[i + 2])` |
+| `dp(i)` asks for **larger** steps | `for i in range(n - 1, -1, -1)` — fill from the top downward |
+| `return min(dp(0), dp(1))` | `return min(dp[0], dp[1])` |
 
-**Loop-order rule:** whatever the memo asks for (`i - 1`, `i - 2`) must already be filled when you reach `i`, so loop upward from the base cases.
+**Loop-order rule:** whatever the memo asks for (`i + 1`, `i + 2`) must already be filled when you reach `i`, so loop downward from the top.
 
 ```python
 class Solution:
     def minCostClimbingStairs(self, cost: list[int]) -> int:
         n = len(cost)
-        dp = [0] * n
+        dp = [0] * (n + 2)                 # dp[n], dp[n + 1] = 0: already at the top
 
-        # Base Cases
-        dp[0] = cost[0]
-        dp[1] = cost[1]
+        for i in range(n - 1, -1, -1):
+            dp[i] = cost[i] + min(dp[i + 1], dp[i + 2])
 
-        # Build DP array iteratively
-        for i in range(2, n):
-            dp[i] = cost[i] + min(dp[i - 1], dp[i - 2])
-
-        # Top of the stairs can be reached from n-1 or n-2
-        return min(dp[n - 1], dp[n - 2])
+        return min(dp[0], dp[1])
 ```
 
-**Shrink to O(1) space:** `dp[i]` only reads the previous two slots, so keep two variables (`first` = step `i - 2`, `second` = step `i - 1`) and slide them forward.
+**Shrink to O(1) space:** `dp[i]` only reads the next two slots, so keep two variables (`nxt` = `dp[i + 1]`, `nxt2` = `dp[i + 2]`) and slide them down one step at a time. When the loop ends, `nxt` is `dp[0]` and `nxt2` is `dp[1]`.
 
 ```python
 class Solution:
     def minCostClimbingStairs(self, cost: list[int]) -> int:
-        first = cost[0]
-        second = cost[1]
+        nxt, nxt2 = 0, 0                   # dp[n], dp[n + 1]
 
-        for i in range(2, len(cost)):
-            curr = cost[i] + min(first, second)
-            first = second
-            second = curr
+        for i in range(len(cost) - 1, -1, -1):
+            cur = cost[i] + min(nxt, nxt2)
+            nxt2, nxt = nxt, cur
 
-        return min(first, second)
+        return min(nxt, nxt2)              # min(dp[0], dp[1])
 ```
 
 ## 4. Dry Run (`cost = [10, 15, 20, 5]`)
 
 ```text
-answer = min(solve(3), solve(2)) = min(20, 30) = 20
-├─ solve(3) = 5 + min(solve(2), solve(1)) = 5 + min(30, 15) = 20
-│   ├─ solve(2) = 20 + min(solve(1), solve(0)) = 20 + min(15, 10) = 30
-│   │   ├─ solve(1) = 15   (base)
-│   │   └─ solve(0) = 10   (base)
-│   └─ solve(1) = 15       (base)
-└─ solve(2) = 30           (cached — not recomputed)
+answer = min(dp(0), dp(1)) = min(30, 20) = 20
+├─ dp(0) = 10 + min(dp(1), dp(2)) = 10 + min(20, 20) = 30
+│   ├─ dp(1) = 15 + min(dp(2), dp(3)) = 15 + min(20, 5) = 20
+│   │   ├─ dp(2) = 20 + min(dp(3), dp(4)) = 20 + min(5, 0) = 20
+│   │   │   ├─ dp(3) = 5 + min(dp(4), dp(5)) = 5 + min(0, 0) = 5
+│   │   │   │   ├─ dp(4) = 0   (base: at the top)
+│   │   │   │   └─ dp(5) = 0   (base: past the top)
+│   │   │   └─ dp(4) = 0       (base: at the top)
+│   │   └─ dp(3) = 5           (cached — not recomputed)
+│   └─ dp(2) = 20              (cached — not recomputed)
+└─ dp(1) = 20                  (cached — not recomputed)
 ```
 
 Best route: start on step 1 (pay 15), jump 2 to step 3 (pay 5), jump to the top. Total 20.
 
 ## 5. Complexity
 
-* **States:** `memo` is keyed by the step `i`, so at most `n` different steps are ever stored.
+* **States:** `memo` is keyed by the step `i`, so at most `n` different steps (`0..n - 1`) are ever stored; `i >= n` returns before touching it.
 * **Time:** O(n) — each step is computed once, and each computation is one `min` of two values that are already known (base cases or cache hits).
 * **Space:** O(n) — the memo holds about `n` entries and the recursion goes `n` deep. Tabulation is O(n) too; the two-variable version is O(1).
 
 ## 6. Recall (30 seconds)
 
-* **State:** `solve(i)` = cheapest cost to stand on step `i`, with `cost[i]` included.
-* **Transition:** `cost[i] + min(solve(i - 1), solve(i - 2))`; bases are steps 0 and 1.
-* **Pitfall:** the answer is `min(solve(n - 1), solve(n - 2))`, not `solve(n)`.
+* **State:** `dp(i)` = cheapest cost from step `i` to the top, with `cost[i]` included.
+* **Transition:** `cost[i] + min(dp(i + 1), dp(i + 2))`; `dp(i >= n) = 0`.
+* **Pitfall:** you can start on step 0 **or** 1, so the answer is `min(dp(0), dp(1))`.

@@ -49,7 +49,7 @@ class Solution:
                 return memo[(i,current_sum)]
 
             pick = dp(i,current_sum + coins[i])
-            not_pick =  dp(i+1,current_sum)
+            not_pick = dp(i+1,current_sum)
 
             memo[(i,current_sum)] = pick + not_pick
 

@@ -22,7 +22,7 @@ Count how many different ways `t` can be picked out of `s` as a subsequence. Wal
 * **State:** `dp(i, j)` = number of ways `t[j:]` is a subsequence of `s[i:]`
 * **Choice:** on a match, use `s[i]` for `t[j]` or skip it; on a mismatch, skip it
 * **Recurrence:** match → `dp(i + 1, j + 1) + dp(i + 1, j)`; mismatch → `dp(i + 1, j)`
-* **Base:** `dp(i, len(t)) = 1` (all of `t` matched), `dp(len(s), j > 0) = 0` (`s` used up)
+* **Base:** `dp(i, len(t)) = 1` (all of `t` matched), `dp(len(s), j) = 0` for `j < len(t)` (`s` used up)
 * **Guard:** check `j == len(t)` **before** `i == len(s)`, because an empty `t` counts as one way even when `s` is also empty
 
 ## 3. Code
@@ -59,19 +59,19 @@ class Solution:
 
 ### Alternative: Tabulation
 
-Four moves turn the memo into a table: **cache → array**, **base cases → starting values**, **recursion direction → loop direction**, **calls → lookups**. As in Edit Distance, the memo uses `-1` for "used up", so shift every index by one: **memo index `i` is table row `i + 1`**, and row/column `0` means "empty".
+Four moves turn the memo into a table: **cache → array**, **base cases → starting values**, **recursion direction → loop direction**, **calls → lookups**. The memo works on **suffixes** (`s[i:]`, `t[j:]`). The usual table is its mirror image on **prefixes**: `dp[i][j]` uses the first `i` chars of `s` and the first `j` chars of `t`. It's the same recurrence with the direction flipped, and the answer is the same.
 
-| Memoization | Tabulation |
+| Memoization (suffixes) | Tabulation (prefixes) |
 |---|---|
 | `memo` keyed by `(i, j)` | `dp[i][j]` = ways the first `j` chars of `t` appear in the first `i` chars of `s` |
-| `if j < 0: return 1` | first column: `dp[i][0] = 1` (empty target: one way) |
-| `if i < 0: return 0` | first row: `dp[0][j] = 0` for `j > 0` (already the default) |
-| match → `dp(i - 1, j - 1) + dp(i - 1, j)` | `dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]` |
-| mismatch → `dp(i - 1, j)` | `dp[i][j] = dp[i - 1][j]` |
-| `dp(i, j)` asks for **smaller** indexes | loop `i` and `j` **upward** from 1 |
-| `return dp(len(s) - 1, len(t) - 1)` | `return dp[m][n]` |
+| `if j == n: return 1` (nothing left of `t`) | first column: `dp[i][0] = 1` (empty target: one way) |
+| `if i == m: return 0` (nothing left of `s`) | first row: `dp[0][j] = 0` for `j > 0` (already the default) |
+| match → `dp(i + 1, j + 1) + dp(i + 1, j)` | `dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]` |
+| mismatch → `dp(i + 1, j)` | `dp[i][j] = dp[i - 1][j]` |
+| `dp(i, j)` asks for **larger** indexes | the mirrored table asks for **smaller** ones, so loop `i` and `j` **upward** from 1 |
+| `return dp(0, 0)` | `return dp[m][n]` |
 
-**Loop-order rule:** the memo asks for smaller indexes, so fill the table from the top-left.
+**Loop-order rule:** the prefix table asks for smaller indexes, so fill it from the top-left.
 
 ```python
 class Solution:
@@ -123,7 +123,7 @@ class Solution:
 
 ## 4. Dry Run (`s = "babgbag"`, `t = "bag"`)
 
-Table cell `(i, j)`: the number of ways the first `j` letters of `bag` appear in the first `i` letters of `babgbag`. It equals the memo's `dp(i - 1, j - 1)`.
+Table cell `(i, j)`: the number of ways the first `j` letters of `bag` appear in the first `i` letters of `babgbag`. This is the prefix table, so it's the mirror image of the memo. The bottom-right cell is the memo's `dp(0, 0)`.
 
 ```text
           ""   b   a   g
@@ -148,5 +148,5 @@ The answer is `5`. For example, the last `g` matches `t[2]`, so the count is `4`
 ## 6. Recall (30 seconds)
 
 * **State:** `dp(i, j)` = ways `t[j:]` appears as a subsequence of `s[i:]`.
-* **Transition:** match → `dp(i + 1, j + 1) + dp(i + 1, j)`; mismatch → `dp(i + 1, j)`; `dp(i, n) = 1`, `dp(m, j>0) = 0`.
+* **Transition:** match → `dp(i + 1, j + 1) + dp(i + 1, j)`; mismatch → `dp(i + 1, j)`; `dp(i, n) = 1`, `dp(m, j < n) = 0`.
 * **One-row table:** loop `j` **downward** so `dp[j - 1]` still holds the previous row.

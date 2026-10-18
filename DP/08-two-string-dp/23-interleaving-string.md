@@ -11,9 +11,9 @@ Can `s3` be built by weaving `s1` and `s2` together while keeping each string's 
 * `if len(s1) + len(s2) != len(s3): return False` — the lengths must add up, or it is impossible.
 * `dp(i, j)` — can `s1[i:]` and `s2[j:]` be interleaved to form `s3[i + j:]`?
 * `if i >= len(s1) and j >= len(s2): return True` — both strings are used up, so `s3` was built completely.
-* `if i < len(s1) and s1[i] == s3[i + j]: ans = ans or dp(i + 1, j)` — take the next character from `s1` if it matches `s3`.
-* `if j < len(s2) and s2[j] == s3[i + j]: ans = ans or dp(i, j + 1)` — take it from `s2` if it matches.
-* `ans or ...` — either source working is enough. Both may match, so both are tried.
+* `match_s1 = (i < len(s1) and s1[i] == s3[i+j]) and dp(i+1,j)` — take the next character from `s1` if it matches `s3`. The `and` short-circuits, so `dp(i + 1, j)` is only called when the character matches (and the bounds check stops an out-of-range index).
+* `match_s2 = (j < len(s2) and s2[j] == s3[i+j]) and dp(i,j+1)` — the same, taking the character from `s2`.
+* `match_s1 or match_s2` — either source working is enough. Both may match, so both are tried.
 * `memo[(i, j)]` — different weaves reach the same `(i, j)`, so each is solved once.
 
 **Recall:** `dp(i, j)` = take from `s1` (if it matches `s3[i + j]`) **or** from `s2`; `s3`'s position is `i + j`.
@@ -33,30 +33,24 @@ Can `s3` be built by weaving `s1` and `s2` together while keeping each string's 
 ```python
 class Solution:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+
         if len(s1) + len(s2) != len(s3):
             return False
-
+        
         memo = {}
 
-        def dp(i: int, j: int) -> bool:
-            # Base Case: Both s1 and s2 are fully traversed
+        def dp(i, j):
             if i >= len(s1) and j >= len(s2):
                 return True
 
             if (i, j) in memo:
                 return memo[(i, j)]
 
-            ans = False
+            match_s1 = (i < len(s1) and s1[i] == s3[i + j]) and dp(i + 1, j)
 
-            # Branch 1: Take character from s1
-            if i < len(s1) and s1[i] == s3[i + j]:
-                ans = ans or dp(i + 1, j)
+            match_s2 = (j < len(s2) and s2[j] == s3[i + j]) and dp(i, j + 1)
 
-            # Branch 2: Take character from s2
-            if j < len(s2) and s2[j] == s3[i + j]:
-                ans = ans or dp(i, j + 1)
-
-            memo[(i, j)] = ans
+            memo[(i, j)] = match_s1 or match_s2
             return memo[(i, j)]
 
         return dp(0, 0)
@@ -70,9 +64,9 @@ Four moves turn the memo into a table: **cache → array**, **base cases → sta
 |---|---|
 | `memo` keyed by `(i, j)` | `dp[i][j]`, sized `(m + 1) × (n + 1)` |
 | `if i >= len(s1) and j >= len(s2): return True` | `dp[m][n] = True` |
-| branch 1: `i < len(s1) and s1[i] == s3[i + j]` then `dp(i + 1, j)` | `i < m and s1[i] == s3[k] and dp[i + 1][j]`, with `k = i + j` |
-| branch 2: `j < len(s2) and s2[j] == s3[i + j]` then `dp(i, j + 1)` | `j < n and s2[j] == s3[k] and dp[i][j + 1]` |
-| `ans = ans or ...` | `dp[i][j] = take_s1 or take_s2` |
+| `match_s1 = (i < len(s1) and s1[i] == s3[i + j]) and dp(i + 1, j)` | `take_s1 = i < m and s1[i] == s3[k] and dp[i + 1][j]`, with `k = i + j` |
+| `match_s2 = (j < len(s2) and s2[j] == s3[i + j]) and dp(i, j + 1)` | `take_s2 = j < n and s2[j] == s3[k] and dp[i][j + 1]` |
+| `match_s1 or match_s2` | `dp[i][j] = take_s1 or take_s2` |
 | `dp(i, j)` asks for **larger** `i` and `j` | loop `i` and `j` **downward** from `m` and `n` |
 | `return dp(0, 0)` | `return dp[0][0]` |
 
