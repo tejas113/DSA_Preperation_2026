@@ -17,7 +17,10 @@ not a one-time cram sheet.
    to any single file later as a refresher without re-reading the whole topic.
 3. When you come back after weeks away, don't reread everything — open [problems.md](problems.md), scan the
    topic tables, and re-read just the file(s) covering whatever pattern you're rusty on.
-4. There is no `concepts/` guide by default. If a topic ever needs a standalone concept primer, it gets added
+4. Before any DP problem, skim [patterns.md](patterns.md). It covers which base cases to return and how to
+   combine states (count / min / max / yes-no, `or` vs `and`, reuse vs use-once), and how to work out
+   time and space from the memo key.
+5. There is no `concepts/` guide by default. If a topic ever needs a standalone concept primer, it gets added
    there explicitly and linked from that topic's problems.
 
 Every problem file has the same six sections:
