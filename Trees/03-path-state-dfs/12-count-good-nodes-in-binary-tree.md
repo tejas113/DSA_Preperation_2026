@@ -69,60 +69,70 @@ class Solution:
 
 ```
 
-#### Solution B: Helper with State Accumulation (Your Approach Refined)
+#### Solution B: Helper with State Accumulation (Update-Then-Check)
 
 ```python
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
-        good_count = 0
+        good_nodes = 0
 
-        def dfs(node: Optional[TreeNode], max_so_far: int) -> None:
-            nonlocal good_count
+        def dfs(node: Optional[TreeNode], max_value: int) -> None:
+            nonlocal good_nodes
             if not node:
                 return
 
-            # Check if current node value is greater than or equal to path maximum
-            if node.val >= max_so_far:
-                good_count += 1
-                max_so_far = node.val  # Update path state
+            # Update the path max FIRST, then compare against the updated value
+            max_value = max(max_value, node.val)
 
-            dfs(node.left, max_so_far)
-            dfs(node.right, max_so_far)
+            if node.val >= max_value:
+                good_nodes += 1
 
-        dfs(root, root.val)
-        return good_count
+            dfs(node.left, max_value)
+            dfs(node.right, max_value)
+
+        dfs(root, float('-inf'))
+        return good_nodes
 
 ```
 
 * **Line 5–6:** Guard clause for `None` pointers.
-* **Line 9:** `node.val >= max_so_far` verifies the good node condition. Note: in your original code, updating `root_max = max(root.val, root_max)` *before* checking `root.val >= root_max` caused `root.val >= root_max` to always evaluate to `True` for that specific line check—checking the condition first or explicitly setting `max_so_far = max(max_so_far, node.val)` handles this cleanly.
-* **Line 13–14:** Recurses down left and right branches carrying the updated path maximum forward.
+* **Line 9:** `max_value = max(max_value, node.val)` updates the running path-max **before** the comparison — the opposite order from Solution A.
+* **Line 11–12:** `node.val >= max_value` still correctly detects a good node, because of how the update above behaves:
+  * If `node.val` was the new high point, `max_value` just became `node.val`, so `node.val >= max_value` is `node.val >= node.val` → **always `True`** → counted.
+  * If `node.val` was *not* the new high point, `max_value` stays whatever it already was (strictly greater than `node.val`), so the check correctly comes out `False`.
+  * So update-then-check and check-then-update (Solution A's order) are mathematically equivalent — just two valid ways to write the same rule.
+* **Line 14–15:** Recurses down left and right branches carrying the updated path maximum forward.
+* **Line 18:** Seed the root call with `float('-inf')` instead of `root.val` — this makes the base case work even if you ever reuse this `dfs` helper on an empty tree, and it's the more common idiom for "no maximum seen yet."
 
 ---
 
 ### 4. Step-by-Step Dry Run
 
-Let's trace **Example 1**: `root = [3, 1, 4, 3, null, 1, 5]`
+Let's trace **Example 1**: `root = [3, 1, 4, 3, null, 1, 5]` using Solution B (update-then-check), starting with `dfs(root, float('-inf'))`.
 
-* **`dfs(Node 3, max_so_far = 3)`** (Root):
-* `3 >= 3` $\rightarrow$ **Good Node!** (`good_count = 1`). `max_so_far = 3`.
+* **`dfs(Node 3, max_value = -inf)`** (Root):
+* Update: `max_value = max(-inf, 3) = 3`.
+* Check: `3 >= 3` $\rightarrow$ **Good Node!** (`good_nodes = 1`).
 * Recurses: `dfs(Node 1, 3)` and `dfs(Node 4, 3)`.
 
 
-* **Left Subtree — `dfs(Node 1, max_so_far = 3)**`:
-* `1 >= 3` is `False` $\rightarrow$ Not good (`good_count = 1`). `max_so_far` remains `3`.
+* **Left Subtree — `dfs(Node 1, max_value = 3)`**:
+* Update: `max_value = max(3, 1) = 3` (unchanged).
+* Check: `1 >= 3` is `False` $\rightarrow$ Not good (`good_nodes = 1`).
 * Recurses: `dfs(Node 3, 3)`.
-* **`dfs(Node 3, max_so_far = 3)`**:
-* `3 >= 3` $\rightarrow$ **Good Node!** (`good_count = 2`). `max_so_far = 3`.
+* **`dfs(Node 3, max_value = 3)`**:
+* Update: `max_value = max(3, 3) = 3`.
+* Check: `3 >= 3` $\rightarrow$ **Good Node!** (`good_nodes = 2`).
 
 
 
 
-* **Right Subtree — `dfs(Node 4, max_so_far = 3)**`:
-* `4 >= 3` $\rightarrow$ **Good Node!** (`good_count = 3`). `max_so_far = 4`.
+* **Right Subtree — `dfs(Node 4, max_value = 3)`**:
+* Update: `max_value = max(3, 4) = 4`.
+* Check: `4 >= 4` $\rightarrow$ **Good Node!** (`good_nodes = 3`).
 * Recurses: `dfs(Node 1, 4)` and `dfs(Node 5, 4)`.
-* **`dfs(Node 1, 4)`**: `1 >= 4` is `False` $\rightarrow$ Not good (`good_count = 3`).
-* **`dfs(Node 5, 4)`**: `5 >= 4` $\rightarrow$ **Good Node!** (`good_count = 4`).
+* **`dfs(Node 1, 4)`**: Update: `max_value = max(4, 1) = 4`. Check: `1 >= 4` is `False` $\rightarrow$ Not good (`good_nodes = 3`).
+* **`dfs(Node 5, 4)`**: Update: `max_value = max(4, 5) = 5`. Check: `5 >= 5` $\rightarrow$ **Good Node!** (`good_nodes = 4`).
 
 
 * **Final Result:** Returns `4`.
@@ -138,8 +148,9 @@ Let's trace **Example 1**: `root = [3, 1, 4, 3, null, 1, 5]`
 
 ### 6. Quick Revision Summary (30-Second Recall)
 
-* **Path State Pattern:** Pass `max_so_far` down through recursion arguments.
-* **Good Node Condition:** `node.val >= max_so_far`.
-* **Propagation:** Update `max_so_far = max(max_so_far, node.val)` before passing to child calls.
+* **Path State Pattern:** Pass the running path-maximum down through recursion arguments.
+* **Good Node Condition:** `node.val >= max_value`.
+* **Order doesn't matter, as long as you're consistent:** update-then-check (`max_value = max(max_value, node.val)` then compare) and check-then-update (compare against the old max, then update) give identical results — pick whichever reads cleaner to you.
+* **Seed value:** start the recursion with `float('-inf')` so the root is always counted as good.
 
 ---
