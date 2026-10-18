@@ -30,7 +30,49 @@ Although a single call to `next()` can take up to $\mathcal{O}(H)$ time (when tr
 
 ---
 
-### 3. Complete Python Code
+### 3. Code Implementations
+
+#### Approach 0: Recursive Flatten into Array (Naive Baseline)
+
+Do the entire inorder traversal up front in `__init__`, store every value, and just walk an index pointer forward on each `next()`.
+
+```python
+from typing import Optional
+
+
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.nodes = []
+        self.index = -1
+
+        # Recursively flatten the whole BST into a sorted list, once.
+        def inorder(node: Optional[TreeNode]) -> None:
+            if not node:
+                return
+            inorder(node.left)
+            self.nodes.append(node.val)
+            inorder(node.right)
+
+        inorder(root)
+
+    def next(self) -> int:
+        # Move the pointer forward and return the value there.
+        self.index += 1
+        return self.nodes[self.index]
+
+    def hasNext(self) -> bool:
+        # True as long as there's an unread value ahead of the pointer.
+        return self.index + 1 < len(self.nodes)
+
+```
+
+* **`__init__`** does all the work immediately: one full recursive inorder traversal builds `self.nodes` as a complete sorted list, and `self.index = -1` means "nothing read yet."
+* **`next()`** is trivial — just increment and index into the already-sorted array.
+* **`hasNext()`** is trivial too — just compare the next index against the list length.
+* **The cost:** `__init__` is $\mathcal{O}(N)$ time and $\mathcal{O}(N)$ space *before the first `next()` call even happens* — if the BST has a million nodes and the caller only ever asks for the 3 smallest, you've still paid to flatten the whole tree. The Controlled Stack approach below fixes exactly this by doing the traversal *lazily*, one step at a time.
+
+#### Approach 1 (Optimized): Controlled Stack — Lazy Inorder Traversal
 
 ```python
 from typing import Optional
