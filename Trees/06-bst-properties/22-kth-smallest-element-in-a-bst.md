@@ -6,6 +6,14 @@
 
 ### 1. Core Intuition & Optimization
 
+#### Approach 0: Recursive Inorder + Array Index (Baseline)
+
+The simplest way in: an inorder traversal of a BST visits nodes in strictly ascending order. So collect every value into a list via recursive inorder, then the $k$-th smallest is just `res[k - 1]`.
+
+* **Time Complexity:** $\mathcal{O}(N)$ — visits every node, even if $k$ is small.
+* **Space Complexity:** $\mathcal{O}(N)$ — stores every value in `res`, plus $\mathcal{O}(H)$ call stack.
+* **Trade-off vs. Approach 1:** correct and easy to write under pressure, but wasteful — it keeps going long after the $k$-th element has already been found. Approach 1 below fixes exactly this.
+
 #### Approach 1: Iterative Inorder with Early Stopping (Best for Standard Problem)
 
 Instead of collecting all nodes in an array, use an iterative inorder traversal with a stack. Decrement $k$ every time a node is popped. When $k = 0$, return that node's value immediately without visiting the remaining nodes.
@@ -46,6 +54,33 @@ When querying the $k$-th smallest at node `curr`:
 ---
 
 ### 2. Implementations
+
+#### Recursive Inorder + Array Index (Baseline)
+
+```python
+from typing import Optional
+
+
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        res = []
+
+        def inorder(node: Optional[TreeNode]) -> None:
+            if not node:
+                return
+
+            inorder(node.left)
+            res.append(node.val)
+            inorder(node.right)
+
+        inorder(root)
+        return res[k - 1]
+
+```
+
+* `res = []` — will hold every node's value, in ascending order once the traversal finishes.
+* `inorder(node.left)` then `res.append(node.val)` then `inorder(node.right)` — the classic Left → Root → Right order; because this is a BST, that order is also numeric order.
+* `return res[k - 1]` — the $k$-th smallest is at index `k - 1` once `res` is fully sorted (1-indexed $k$, 0-indexed list).
 
 #### Iterative Inorder (Early Stopping)
 
