@@ -20,6 +20,83 @@ Within each topic, the **Source** column tells you exactly where each problem co
 
 ---
 
+## ⏱ Time-Crunch Priority Guide
+
+On a tight schedule? **Don't do all 38 in order.** Work top-to-bottom through 🔴 **High** first — these 14 are
+the most-asked, highest-leverage problems; each one teaches a pattern that shows up again and again. Add 🟡
+**Medium** if you have time left. 🟢 **Low** is safe to skip entirely for a time-crunched pass — revisit only if
+you finish everything else with time to spare. Every table below also has a **Priority** column so you can see
+this at a glance topic by topic.
+
+### 🔴 High priority — do these first (14 problems)
+
+| # | Problem | LC # | Difficulty |
+|---|---|---|---|
+| 1 | [Maximum Depth of Binary Tree](01-structural-dfs-simple-recursion/01-maximum-depth-of-binary-tree.md) | 104 | Easy |
+| 2 | [Invert Binary Tree](01-structural-dfs-simple-recursion/02-invert-binary-tree.md) | 226 | Easy |
+| 3 | [Same Tree](01-structural-dfs-simple-recursion/03-same-tree.md) | 100 | Easy |
+| 6 | [Balanced Binary Tree](02-bottom-up-dfs-tree-dp/06-balanced-binary-tree.md) | 110 | Easy |
+| 7 | [Diameter of Binary Tree](02-bottom-up-dfs-tree-dp/07-diameter-of-binary-tree.md) | 543 | Easy |
+| 10 | [Path Sum](03-path-state-dfs/10-path-sum.md) | 112 | Easy |
+| 14 | [Binary Tree Level Order Traversal](04-bfs-level-order/14-binary-tree-level-order-traversal.md) | 102 | Medium |
+| 15 | [Binary Tree Right Side View](04-bfs-level-order/15-binary-tree-right-side-view.md) | 199 | Medium |
+| 20 | [Binary Tree Inorder Traversal (explicit stack + Morris)](05-iterative-traversal/20-binary-tree-inorder-traversal.md) | 94 | Easy |
+| 21 | [Validate Binary Search Tree](06-bst-properties/21-validate-binary-search-tree.md) | 98 | Medium |
+| 22 | [Kth Smallest Element in a BST](06-bst-properties/22-kth-smallest-element-in-a-bst.md) | 230 | Medium |
+| 26 | [Lowest Common Ancestor of a Binary Search Tree](07-lowest-common-ancestor/26-lca-of-a-binary-search-tree.md) | 235 | Medium |
+| 27 | [Lowest Common Ancestor of a Binary Tree](07-lowest-common-ancestor/27-lca-of-a-binary-tree.md) | 236 | Medium |
+| 36 | [Implement Trie (Prefix Tree)](12-trie-prefix-tree/36-implement-trie.md) | 208 | Medium |
+
+*Why these 14:* every core pattern in the repo has exactly one representative here — simple recursion, bottom-up
+tree-DP (balanced/diameter), top-down path-state, plain + right-side BFS, iterative traversal, BST
+validate/kth-smallest, both "normal" LCA variants, and the Trie basics. If you only have time for one pass,
+this is it.
+
+### 🟡 Medium priority — do if time allows (15 problems)
+
+| # | Problem | LC # | Difficulty |
+|---|---|---|---|
+| 4 | [Symmetric Tree](01-structural-dfs-simple-recursion/04-symmetric-tree.md) | 101 | Easy |
+| 5 | [Subtree of Another Tree](01-structural-dfs-simple-recursion/05-subtree-of-another-tree.md) | 572 | Easy |
+| 11 | [Sum Root to Leaf Numbers](03-path-state-dfs/11-sum-root-to-leaf-numbers.md) | 129 | Medium |
+| 12 | [Count Good Nodes in Binary Tree](03-path-state-dfs/12-count-good-nodes-in-binary-tree.md) | 1448 | Medium |
+| 16 | [Average of Levels in Binary Tree](04-bfs-level-order/16-average-of-levels-in-binary-tree.md) | 637 | Easy |
+| 17 | [Binary Tree Zigzag Level Order Traversal](04-bfs-level-order/17-binary-tree-zigzag-level-order-traversal.md) | 103 | Medium |
+| 18 | [Populating Next Right Pointers in Each Node II](04-bfs-level-order/18-populating-next-right-pointers-ii.md) | 117 | Medium |
+| 23 | [Minimum Absolute Difference in BST](06-bst-properties/23-minimum-absolute-difference-in-bst.md) | 530 | Easy |
+| 24 | [Binary Search Tree Iterator](06-bst-properties/24-binary-search-tree-iterator.md) | 173 | Medium |
+| 29 | [Construct Binary Tree from Preorder and Inorder Traversal](08-construction-and-transforms/29-construct-from-preorder-and-inorder.md) | 105 | Medium |
+| 31 | [Convert Sorted Array to Binary Search Tree](08-construction-and-transforms/31-convert-sorted-array-to-bst.md) | 108 | Easy |
+| 32 | [Flatten Binary Tree to Linked List](08-construction-and-transforms/32-flatten-binary-tree-to-linked-list.md) | 114 | Medium |
+| 34 | [All Nodes Distance K in Binary Tree](10-tree-as-a-graph/34-all-nodes-distance-k.md) | 863 | Medium |
+| 35 | [Serialize and Deserialize Binary Tree](11-serialization/35-serialize-and-deserialize-binary-tree.md) | 297 | Hard |
+| 37 | [Design Add and Search Words Data Structure](12-trie-prefix-tree/37-design-add-and-search-words.md) | 211 | Medium |
+
+*Why these 15:* close variants of a High-priority pattern (zigzag/average-of-levels are Level Order with a
+twist; min-abs-diff is Validate BST's sibling), or a real but slightly less universal technique (next-pointers,
+BST iterator design, tree construction, serialization, distance-K, Trie wildcard search).
+
+### 🟢 Low priority — skip under time pressure (9 problems)
+
+| # | Problem | LC # | Difficulty |
+|---|---|---|---|
+| 8 | [Binary Tree Maximum Path Sum](02-bottom-up-dfs-tree-dp/08-binary-tree-maximum-path-sum.md) | 124 | Hard |
+| 9 | [House Robber III](02-bottom-up-dfs-tree-dp/09-house-robber-iii.md) | 337 | Medium |
+| 13 | [Path Sum III](03-path-state-dfs/13-path-sum-iii.md) | 437 | Medium |
+| 19 | [Vertical Order Traversal of a Binary Tree](04-bfs-level-order/19-vertical-order-traversal.md) | 987 (314) | Hard |
+| 25 | [Delete Node in a BST](06-bst-properties/25-delete-node-in-a-bst.md) | 450 | Medium |
+| 28 | [Lowest Common Ancestor with Parent Pointers (LCA III)](07-lowest-common-ancestor/28-lca-with-parent-pointers.md) | 1650 | Medium |
+| 30 | [Construct Binary Tree from Inorder and Postorder Traversal](08-construction-and-transforms/30-construct-from-inorder-and-postorder.md) | 106 | Medium |
+| 33 | [Count Complete Tree Nodes](09-counting-shortcut/33-count-complete-tree-nodes.md) | 222 | Medium |
+| 38 | [Word Search II](12-trie-prefix-tree/38-word-search-ii.md) | 212 | Hard |
+
+*Why these 9 are safe to skip first:* either Hard-tier stretch problems (#8, #19, #35-adjacent, #38 — more
+L4/L5 territory), a near-duplicate of a Medium you've already covered (#30 mirrors #29; #28 is a follow-up
+twist on #26/#27), or a lower-frequency ask overall (#9, #13, #25, #33). Nothing here is *bad* to know — it's
+just the lowest-leverage use of limited time.
+
+---
+
 ## Topic 1 — Structural DFS / Simple Recursion
 
 **Pattern:** recurse into `left` and `right`, then combine the two answers with the current node. The "hello world" of trees.

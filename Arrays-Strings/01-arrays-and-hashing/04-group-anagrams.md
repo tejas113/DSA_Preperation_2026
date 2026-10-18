@@ -87,8 +87,15 @@ if __name__ == "__main__":
 
 ## 5. Complexity
 
-* **Time:** `O(n · k log k)` — `n` words, and sorting one word of length `k` costs `O(k log k)`; the dict append is `O(1)` on average (`k` = longest word).
-* **Space:** `O(n · k)` — `ans` stores every word once in its bucket, plus one sorted key per group.
+Let `n` = number of strings in `strs`, `k` = length of the longest string.
+
+* **Time:** `O(n · k log k)`
+  * For each of the `n` strings, `sorted(s)` sorts its characters: `O(k log k)`.
+  * `"".join(...)` builds the key in `O(k)`, and inserting/looking up that key in `ans` costs `O(k)` to hash the string.
+  * Per string that is `O(k log k) + O(k)` = `O(k log k)`, so `n` strings give `O(n · k log k)`.
+* **Space:** `O(n · k)`
+  * Worst case (no two words are anagrams), `ans` holds every original string in its bucket plus a sorted key for each one.
+  * That is proportional to the total number of characters across all strings, so `O(n · k)`.
 
 ---
 
