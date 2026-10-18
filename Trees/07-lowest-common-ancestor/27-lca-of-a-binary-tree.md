@@ -39,11 +39,15 @@ The algorithm uses a bottom-up (post-order) traversal to bubble up found targets
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        # Base Case: Empty node or target found
-        if not root or root == p or root == q:
+        # Base Case 1: ran off the tree
+        if not root:
+            return None
+
+        # Base Case 2: found one of the two targets
+        if root == p or root == q:
             return root
 
-        # Post-Order Traversal: Search left and right subtrees
+        # Post-Order Traversal: search left and right subtrees
         left_res = self.lowestCommonAncestor(root.left, p, q)
         right_res = self.lowestCommonAncestor(root.right, p, q)
 
@@ -51,8 +55,13 @@ class Solution:
         if left_res and right_res:
             return root
 
-        # Case 2: Both p and q are in the same subtree -> return the non-None result
-        return left_res if left_res else right_res
+        # Case 2: only one side found anything -> bubble that result up
+        if left_res:
+            return left_res
+        elif right_res:
+            return right_res
+
+        # Case 3: neither side found p or q -> implicitly returns None
 
 ```
 
