@@ -51,7 +51,40 @@ Inorder:  [ <---- Left Subtree ----> | ROOT | <---- Right Subtree ----> ]
 
 ---
 
-### 3. Optimized Code ($\mathcal{O}(N)$ Time & Space)
+### 3. Code Implementations
+
+#### Approach 0: Array Slicing (Baseline)
+
+Use `.index()` to find the root in `inorder`, then slice both arrays into left/right pieces and recurse.
+
+```python
+from typing import List, Optional
+
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not preorder:
+            return None
+
+        root = TreeNode(preorder[0])
+
+        # Find where the root sits in the inorder sequence
+        mid = inorder.index(preorder[0])
+
+        # preorder[1 : mid+1] is the left subtree's preorder (mid nodes),
+        # preorder[mid+1 :] is everything left over for the right subtree
+        root.left = self.buildTree(preorder[1:mid + 1], inorder[0:mid])
+        root.right = self.buildTree(preorder[mid + 1:], inorder[mid + 1:])
+
+        return root
+
+```
+
+* `inorder.index(preorder[0])` does a **linear scan** every single call — that's the first source of the $\mathcal{O}(N^2)$ cost in the table below.
+* `preorder[1:mid+1]`, `inorder[0:mid]`, etc. each **copy** a new list — that's the second source: across all recursive calls, the total work copying slices adds up to $\mathcal{O}(N^2)$ as well.
+* It's correct and easy to reason about (directly mirrors the "preorder root splits inorder into left/right" rule), which makes it a reasonable first pass under interview pressure — the Approach A below is the natural "can we avoid repeating that scan and those copies?" follow-up.
+
+#### Approach A (Optimized): Hash Map + Index Pointers — $\mathcal{O}(N)$ Time & Space
 
 ```python
 from typing import List, Optional
