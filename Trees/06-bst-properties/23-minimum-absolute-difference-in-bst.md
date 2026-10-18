@@ -33,6 +33,44 @@ In any sorted array, the smallest difference between any pair of numbers always 
 
 ### 3. Code Implementations
 
+#### Approach 0: Array-Based Iterative Inorder (Baseline)
+
+Collect the full sorted list first via iterative inorder, then walk it once to find the smallest gap between adjacent entries.
+
+```python
+from typing import Optional
+
+
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        res = []
+        stack = []
+        cur = root
+        min_diff = float('inf')
+
+        # Pass 1: iterative inorder traversal -> res is sorted ascending
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+
+            cur = stack.pop()
+            res.append(cur.val)
+            cur = cur.right
+
+        # Pass 2: smallest difference is always between adjacent sorted values
+        for i in range(1, len(res)):
+            current_diff = res[i] - res[i - 1]
+            min_diff = min(min_diff, current_diff)
+
+        return min_diff
+
+```
+
+* **Pass 1** is a standard explicit-stack inorder traversal (see Concept 04 / Problem 20) — it does nothing with the values except collect them, so `res` ends up holding every node's value in ascending order.
+* **Pass 2** only needs to compare *consecutive* entries in `res`, because in a sorted list the smallest gap between any two numbers is always between two neighbors — never two numbers with something smaller sitting between them.
+* **Cost of this approach:** two full passes, and `res` holds all $N$ values — $\mathcal{O}(N)$ space on top of the traversal itself. Approaches A and B below fold both passes into one, dropping the array entirely.
+
 #### Approach A: Optimized Iterative Inorder
 
 ```python
