@@ -22,7 +22,9 @@ A **Trie** is a tree data structure used for efficient retrieval of keys in data
 
 ---
 
-### 2. Code Implementation
+### 2. Code Implementations
+
+#### Approach A: `TrieNode` Class with `children` Dict + `is_end_of_word` Flag
 
 ```python
 class TrieNode:
@@ -68,6 +70,48 @@ class Trie:
 # param_3 = obj.startsWith(prefix)
 
 ```
+
+#### Approach B: Plain Nested Dicts with a Sentinel Key (No `TrieNode` Class)
+
+Skip the class entirely — every node is just a plain `dict`. A special key (here, `'.'`) marks "a word ends here," playing the same role `is_end_of_word` played in Approach A.
+
+```python
+class Trie:
+
+    def __init__(self):
+        self.trie = {}
+
+    def insert(self, word: str) -> None:
+        d = self.trie
+        for c in word:
+            if c not in d:
+                d[c] = {}
+            d = d[c]
+        d['.'] = '.'  # sentinel: marks this node as a complete word
+
+    def search(self, word: str) -> bool:
+        d = self.trie
+        for c in word:
+            if c not in d:
+                return False
+            d = d[c]
+        return '.' in d
+
+    def startsWith(self, prefix: str) -> bool:
+        d = self.trie
+        for c in prefix:
+            if c not in d:
+                return False
+            d = d[c]
+        return True
+
+```
+
+* `self.trie = {}` — the root is just an empty dict; every character maps to another dict one level deeper. There's no separate `TrieNode` type at all — a "node" *is* a dict.
+* `insert`: `d = d[c]` walks (and creates, via `if c not in d: d[c] = {}`) one level per character, exactly like `curr = curr.children[char]` in Approach A. `d['.'] = '.'` at the end is the sentinel — since `'.'` is never a real input character (lowercase English letters only, per the problem's constraints), it's safe to reuse it as a marker key sitting alongside the real child keys.
+* `search`: identical walk; `return '.' in d` checks the sentinel instead of `curr.is_end_of_word`.
+* `startsWith`: identical walk, no sentinel check — same logic as Approach A, just without the explicit `TrieNode.children` attribute name.
+* **Trade-off:** less code and no class to define, but the sentinel-key trick only works because `'.'` can never collide with a real character here. (Problem 37's wildcard search uses `'.'` to *mean* "any character" — if you reused this exact dict-with-sentinel trick there, you'd need a different sentinel to avoid a clash.)
 
 ---
 
