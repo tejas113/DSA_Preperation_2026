@@ -112,6 +112,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+Same reason as N-Queens (#12): every row always gets exactly one queen, so the branch point is *which column* among every open one in that row — an n-ary choice, not a yes/no decision.
+
 ---
 
 ## 4. Dry Run (`n = 4`)

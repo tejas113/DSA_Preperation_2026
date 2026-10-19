@@ -60,6 +60,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+Binary include/exclude doesn't apply to Permutations. Every element of `nums` is always used exactly once — nothing is ever left out — so there's no yes/no decision to make for any element. The only question is *which slot* it goes in, and that's already what the `for num in nums` loop over every level answers.
+
 ---
 
 ## 4. Dry Run (`nums = [1, 2, 3]`)

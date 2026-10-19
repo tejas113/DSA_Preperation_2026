@@ -63,6 +63,40 @@ class Solution:
 
 ```
 
+### Alternative: Binary Include/Exclude
+
+Same binary take-or-skip shape as Combination Sum's alternative, with the two Combination Sum II rules added: **take** moves to `i + 1` (no reuse), and **skip** must jump past every later copy of the same value — exactly the dedup trick from Subsets II's binary version, for the same reason (skipping the first copy but keeping an identical later one rebuilds a combination you already built).
+
+```python
+class Solution:
+    def combinationSum2(self, candidates: list[int], target: int) -> list[list[int]]:
+        candidates.sort()
+        n = len(candidates)
+        res = []
+
+        def dfs(i: int, remaining: int, path: list[int]) -> None:
+            if remaining == 0:
+                res.append(path.copy())
+                return
+            if i == n or remaining < 0:
+                return
+
+            # Include candidates[i]: each number can be used once, so move to i + 1
+            path.append(candidates[i])
+            dfs(i + 1, remaining - candidates[i], path)
+            path.pop()
+
+            # Exclude candidates[i] — and every later copy of the same value
+            j = i + 1
+            while j < n and candidates[j] == candidates[i]:
+                j += 1
+            dfs(j, remaining, path)
+
+        dfs(0, target, [])
+        return res
+
+```
+
 ---
 
 ## 4. Dry Run (`candidates = [1a, 1b, 2]`, `target = 3`, already sorted)

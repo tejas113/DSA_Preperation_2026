@@ -59,6 +59,40 @@ class Solution:
 
 ```
 
+### Alternative: Binary Include/Exclude
+
+Same idea as Subsets' binary version — decide `nums[i]` in or out, then move to `i + 1` either way. The only new piece: when you **exclude** `nums[i]`, you must also skip every later copy of that same value. Excluding the first `2` but then separately including a later identical `2` would rebuild a subset you already built by including the first one.
+
+```python
+class Solution:
+    def subsetsWithDup(self, nums: list[int]) -> list[list[int]]:
+        nums.sort()
+        n = len(nums)
+        res = []
+
+        def dfs(i: int, path: list[int]) -> None:
+            if i == n:
+                res.append(path.copy())
+                return
+
+            # Include nums[i]
+            path.append(nums[i])
+            dfs(i + 1, path)
+            path.pop()
+
+            # Exclude nums[i] — and every later copy of the same value, since
+            # excluding the first one but keeping a later identical one would
+            # rebuild the same subset again
+            j = i + 1
+            while j < n and nums[j] == nums[i]:
+                j += 1
+            dfs(j, path)
+
+        dfs(0, [])
+        return res
+
+```
+
 ---
 
 ## 4. Dry Run (`nums = [1, 2, 2]`, already sorted)

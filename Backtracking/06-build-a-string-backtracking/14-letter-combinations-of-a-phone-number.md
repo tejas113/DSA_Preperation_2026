@@ -64,6 +64,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+Every digit always contributes exactly one letter, so there's no in/out decision — the branch point is *which letter* (`for char in digitToChar[digits[index]]`), one of 3 or 4 options at that position, not a yes/no choice.
+
 ---
 
 ## 4. Dry Run (`digits = "23"`)

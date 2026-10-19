@@ -76,6 +76,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+Same reason as Palindrome Partitioning (#8): every digit of `s` is always used in some segment. The branch point is *how long the next segment is* (`length` can be 1, 2 or 3), an n-ary choice, not a binary include/exclude of a single character.
+
 ---
 
 ## 4. Dry Run (`s = "25525511135"`)

@@ -123,6 +123,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+There's no array of elements to decide in or out of here — the search walks a path cell by cell on the grid, and at each step there are up to 4 directions to try next. That's an n-ary choice among neighbors, not a yes/no decision.
+
 ---
 
 ## 4. Dry Run (`board = [["A","B"],["C","D"]]`, `word = "ABD"`)

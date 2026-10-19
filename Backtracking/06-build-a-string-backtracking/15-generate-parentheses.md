@@ -52,6 +52,10 @@ class Solution:
 
 ```
 
+### Why there's no separate binary include/exclude version here
+
+No separate alternative is needed — the solution above is already a binary choice at every step (`if open_count < n:` add `'('`; `if closing_count < open_count:` add `')'`). It just isn't framed as "include/exclude an element," because there's no input array to pick from — the two choices are the only two characters that exist.
+
 ---
 
 ## 4. Dry Run (`n = 2`)

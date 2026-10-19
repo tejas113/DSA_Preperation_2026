@@ -71,6 +71,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+Same reason as Permutations (#4): every element of `nums` is always included somewhere in the answer, just in a different position. There's no in/out decision to make binary — the twin rule (`not visited[i - 1]`) controls *order*, not inclusion.
+
 ---
 
 ## 4. Dry Run (`nums = [1a, 1b, 2]`, already sorted)

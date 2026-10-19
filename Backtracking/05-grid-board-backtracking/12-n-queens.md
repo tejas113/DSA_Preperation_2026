@@ -74,6 +74,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+Every row always gets exactly one queen, so there's no in/out decision to make — the branch point is *which column* (`for c in range(n)`), an n-ary choice among every open column in that row, not a binary yes/no.
+
 ---
 
 ## 4. Dry Run (`n = 4`)

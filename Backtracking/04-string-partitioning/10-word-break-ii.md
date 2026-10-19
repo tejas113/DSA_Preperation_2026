@@ -64,6 +64,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+Same reason as #8 and #9: every character of `s` always ends up inside some word. The branch point is *how long the next word is* (`end` can land at any later index that forms a dictionary word), an n-ary choice, not a yes/no decision on a single character.
+
 ---
 
 ## 4. Dry Run (`s = "catsanddog"`, `wordDict = ["cat","cats","and","sand","dog"]`)

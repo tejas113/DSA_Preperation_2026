@@ -50,6 +50,35 @@ class Solution:
 
 ```
 
+### Alternative: Binary Include/Exclude
+
+Instead of looping over every number from `start`, walk the numbers `1..n` one at a time and decide **in or out** for each. Both branches move to `num + 1`, so nothing is ever revisited — `[2, 1]` still never appears. Without the loop version's early-stop prune, this explores every cell of a size-`n` binary tree (`O(2^n)` instead of `O(C(n, k))`), but it's the direct binary counterpart of #1's approach.
+
+```python
+class Solution:
+    def combine(self, n: int, k: int) -> list[list[int]]:
+        res = []
+
+        def dfs(num: int, path: list[int]) -> None:
+            if len(path) == k:
+                res.append(path.copy())
+                return
+            if num > n:
+                return
+
+            # Include num
+            path.append(num)
+            dfs(num + 1, path)
+            path.pop()
+
+            # Exclude num
+            dfs(num + 1, path)
+
+        dfs(1, [])
+        return res
+
+```
+
 ---
 
 ## 4. Dry Run (`n = 4`, `k = 2`)

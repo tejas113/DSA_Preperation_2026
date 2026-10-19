@@ -53,6 +53,36 @@ class Solution:
 
 ```
 
+### Alternative: Binary Include/Exclude
+
+The reuse rule turns into a binary choice at each index: **take** `candidates[i]` (subtract it from `remaining` and stay at `i`, since it can be reused) or **skip** it entirely (move to `i + 1`, never using it again). This is the exact backtracking shape of unbounded-knapsack take-or-skip recursion, and it also avoids the repeated `sum(path)` calls of the loop version — `remaining` is tracked as a running number instead.
+
+```python
+class Solution:
+    def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
+        res = []
+        n = len(candidates)
+
+        def dfs(i: int, remaining: int, path: list[int]) -> None:
+            if remaining == 0:
+                res.append(path.copy())
+                return
+            if i == n or remaining < 0:
+                return
+
+            # Include candidates[i]: subtract it, stay at i (can reuse the same number)
+            path.append(candidates[i])
+            dfs(i, remaining - candidates[i], path)
+            path.pop()
+
+            # Exclude candidates[i]: move on, this number is never used again
+            dfs(i + 1, remaining, path)
+
+        dfs(0, target, [])
+        return res
+
+```
+
 ---
 
 ## 4. Dry Run (`candidates = [2, 3]`, `target = 5`)

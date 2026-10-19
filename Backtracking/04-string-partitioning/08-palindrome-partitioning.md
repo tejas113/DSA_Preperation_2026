@@ -60,6 +60,10 @@ class Solution:
 
 ```
 
+### Why there's no binary include/exclude version here
+
+This isn't a subset-selection problem — every character of `s` always ends up in some piece. The branch point is *where the next cut lands* (`end` can be any of several positions), which is an n-ary choice among cut lengths, not a yes/no decision on a single element.
+
 ---
 
 ## 4. Dry Run (`s = "aab"`)
