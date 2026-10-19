@@ -30,7 +30,7 @@ sections, in the same order:
 |---|---|
 | **1. Intuition** | A short story + bullets tied to specific lines of the code + a one-line **Recall** |
 | **2. Template** | Choose / Explore / Un-choose in the code's own terms, plus the one prune / dedup check |
-| **3. Code** | The solution (any alternative approach sits under it as a sub-heading) |
+| **3. Code** | The solution. Where a second approach genuinely applies (e.g. binary include/exclude, in-place marking, a bitmask), it sits under a `### Alternative: ...` sub-heading. Where it doesn't, a one-line `### Why there's no binary include/exclude version here` note explains why. |
 | **4. Dry Run** | One small example, drawn as a tree |
 | **5. Complexity** | Time and space, each with a one-line "why" based on the code |
 | **6. Recall (30 seconds)** | Three bullets to re-read before an interview |
@@ -96,8 +96,9 @@ Quick decision test when you're stuck:
 ## Problem index
 
 The full topic-by-topic problem list — with each problem's source (LC150 / NC150 / both / Claude addition),
-LeetCode number, difficulty, priority (Core / Stretch), status, and a link to its file — lives in
-**[backtracking_problems.md](backtracking_problems.md)**.
+LeetCode number, difficulty, priority (Core / Stretch), a **Likelihood (L3)** rating (High / Medium / Low —
+my own estimate of how likely it is to come up at a Google L3 interview, not verified data), status, and a
+link to its file — lives in **[backtracking_problems.md](backtracking_problems.md)**.
 
 That file is the single tracker and the single source of truth; this README deliberately does not repeat the
 checklist. Each topic gets its own folder in the repo root (e.g. `01-subsets-family/`), and the problem
