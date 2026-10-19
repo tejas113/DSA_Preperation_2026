@@ -24,7 +24,9 @@ This problem extends the standard Trie structure to support wildcard searching w
 
 ---
 
-### 2. Code Implementation
+### 2. Code Implementations
+
+#### Approach A: `TrieNode` Class with `children` Dict + `is_word` Flag
 
 ```python
 class TrieNode:
@@ -69,6 +71,54 @@ class WordDictionary:
 # param_2 = obj.search(word)
 
 ```
+
+#### Approach B: Plain Nested Dicts with a Sentinel Key (No `TrieNode` Class)
+
+The same class-free idea from Problem 36's Approach B, extended with the wildcard-branching DFS. Every node is a plain `dict`; `'.'` doubles as both the **word-end sentinel** (a key stored on the node) and the **wildcard character** (a value that can appear in the search string) — the two meanings never collide because the DFS explicitly skips the sentinel key when branching on a wildcard.
+
+```python
+class WordDictionary:
+
+    def __init__(self):
+        self.trie = {}
+
+    def addWord(self, word: str) -> None:
+        d = self.trie
+        for c in word:
+            if c not in d:
+                d[c] = {}
+            d = d[c]
+        d['.'] = '.'  # sentinel: marks this node as a complete word
+
+    def search(self, word: str) -> bool:
+        def dfs(index, node):
+            d = node
+
+            for i in range(index, len(word)):
+                char = word[i]
+
+                if char == '.':
+                    # Wildcard: try every REAL child, skipping the sentinel key
+                    for key in d:
+                        if key != '.' and dfs(i + 1, d[key]):
+                            return True
+                    return False
+                else:
+                    if char not in d:
+                        return False
+                    d = d[char]
+
+            return '.' in d
+
+        return dfs(0, self.trie)
+
+```
+
+* `addWord` is identical to Problem 36's Approach B — walk/create one dict level per character, then drop the `'.'` sentinel on the final node.
+* `search`'s literal-character branch (`else:`) is the same walk as `startsWith` — descend into `d[char]`, fail fast if the key is missing.
+* `search`'s wildcard branch (`if char == '.':`) is where the sentinel-vs-wildcard collision would bite if left unguarded: `for key in d` iterates over **every** key in the current node, and that includes the `'.'` sentinel itself (if a shorter word already ends at this exact node). `if key != '.' and dfs(...)` is the guard — it skips the sentinel key so the wildcard only ever branches into *real* child characters, never mistakes "a word ends here" for "there's a child named `.`".
+* `return '.' in d` at the end of the loop is the same end-of-word check as Approach A's `curr.is_word`.
+* **Same trade-off as Problem 36:** no class to define, at the cost of needing that explicit `key != '.'` guard anywhere the sentinel and a real traversal could otherwise overlap.
 
 ---
 
