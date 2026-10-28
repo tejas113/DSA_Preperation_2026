@@ -55,14 +55,14 @@ list. **Stretch** — a second/harder rep of a mechanic a Core problem already t
 
 | # | Problem | Source | LC # | Difficulty | Priority | Status | File |
 |---|---|---|---|---|---|---|---|
-| 5 | Middle of the Linked List | **[+] Claude** | 876 | Easy | Core | ☐ | TBD |
+| 5 | Middle of the Linked List | **[+] Claude** | 876 | Easy | Core | ☑ | [05-middle-of-the-linked-list.md](02-fast-slow-and-gap-pointers/05-middle-of-the-linked-list.md) |
 | 6 | Linked List Cycle | **LC150 + NC150** | 141 | Easy | Core | ☑ | [06-linked-list-cycle.md](02-fast-slow-and-gap-pointers/06-linked-list-cycle.md) |
-| 7 | Linked List Cycle II | **[+] Claude** | 142 | Medium | Core | ☐ | TBD |
+| 7 | Linked List Cycle II | **[+] Claude** | 142 | Medium | Core | ☑ | [07-linked-list-cycle-ii.md](02-fast-slow-and-gap-pointers/07-linked-list-cycle-ii.md) |
 | 8 | Remove Nth Node From End of List | **LC150 + NC150** | 19 | Medium | Core | ☑ | [08-remove-nth-node-from-end-of-list.md](02-fast-slow-and-gap-pointers/08-remove-nth-node-from-end-of-list.md) |
-| 9 | Reorder List | NC150 | 143 | Medium | Core | ☐ | TBD |
+| 9 | Reorder List | NC150 | 143 | Medium | Core | ☑ | [09-reorder-list.md](02-fast-slow-and-gap-pointers/09-reorder-list.md) |
 | 10 | Intersection of Two Linked Lists | **[+] Claude** | 160 | Easy | Core | ☐ | TBD |
-| 11 | Palindrome Linked List | **[+] Claude** | 234 | Easy | Stretch | ☐ | TBD |
-| 12 | Find the Duplicate Number | NC150 | 287 | Medium | Stretch | ☐ | TBD |
+| 11 | Palindrome Linked List | **[+] Claude** | 234 | Easy | Stretch | ☑ | [11-palindrome-linked-list.md](02-fast-slow-and-gap-pointers/11-palindrome-linked-list.md) |
+| 12 | Find the Duplicate Number | NC150 | 287 | Medium | Stretch | ☑ | [12-find-the-duplicate-number.md](02-fast-slow-and-gap-pointers/12-find-the-duplicate-number.md) |
 
 > **Why #5 and #7:** #5 is the tool (slow/fast finds the middle) that #9 and #11 use. #7 goes one step
 > beyond #6 — *where* the cycle starts — which is the most commonly asked cycle question.
@@ -82,7 +82,7 @@ list. **Stretch** — a second/harder rep of a mechanic a Core problem already t
 | 13 | Merge Two Sorted Lists | **LC150 + NC150** | 21 | Easy | Core | ☑ | [13-merge-two-sorted-lists.md](03-merge-split-and-dummy-node/13-merge-two-sorted-lists.md) |
 | 14 | Add Two Numbers | **LC150 + NC150** | 2 | Medium | Core | ☑ | [14-add-two-numbers.md](03-merge-split-and-dummy-node/14-add-two-numbers.md) |
 | 15 | Remove Duplicates from Sorted List II | LC150 | 82 | Medium | Core | ☑ | [15-remove-duplicates-from-sorted-list-ii.md](03-merge-split-and-dummy-node/15-remove-duplicates-from-sorted-list-ii.md) |
-| 16 | Merge k Sorted Lists | NC150 | 23 | Hard | Core | ☐ | TBD |
+| 16 | Merge k Sorted Lists | NC150 | 23 | Hard | Core | ☑ | [16-merge-k-sorted-lists.md](03-merge-split-and-dummy-node/16-merge-k-sorted-lists.md) |
 | 17 | Partition List | LC150 | 86 | Medium | Stretch | ☑ | [17-partition-list.md](03-merge-split-and-dummy-node/17-partition-list.md) |
 | 18 | Sort List | LC150 | 148 | Medium | Stretch | ☐ | TBD |
 

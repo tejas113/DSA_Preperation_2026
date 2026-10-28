@@ -221,3 +221,92 @@
 **My answer:**
 
 **Feedback:**
+
+---
+
+## L3-level "running a team" questions (added 2026-10-21)
+> Not manager questions. These check how you **coordinate and lead peers**, which you've actually done.
+
+### C11. Tell me about a time you divided up work or delegated tasks to others.
+**Tests:** organization, leadership without authority, trust
+**➡️ Use story:** your write-up ("I divided the tasks of each thread and assigned them to the respective people… I was working on integration")
+
+**Answer. ⚠️ Fill the [brackets]:**
+"**[S]** On my copy-editing automation project, after the early discovery phase, we had several parallel threads of work: [e.g. manuscript parsing, rule retrieval, rule application, reference validation, UI output], and people across the US and India.
+
+**[T]** Because I'd been involved in most of the discovery work and knew how the pieces fitted together, I ended up splitting the threads between people, including some who were senior to me, while I took the **integration** work myself.
+
+**[A]** I split it based on **who knew what best**, not just who was free: [e.g. 'the senior who'd worked on references took validation; my intern took testing and the graph-RAG exploration']. For every thread I made the **outcome and the interface clear**, what it needed to produce and how it would plug into the rest, because integration was mine and I didn't want surprises at the end. With seniors, I **framed it as a proposal, not an instruction**: 'Here's how I see the split, does this work for you?' And I kept the plan in a shared doc, so everyone could see who owned what.
+
+**[R]** [Outcome: e.g. 'threads moved in parallel and integration went smoothly'.] The lesson: **when you delegate, make the outcome and the interface clear, and leave the 'how' to the owner.** And with people senior to you, propose, don't assign."
+
+**Anchors:** several parallel threads → I knew how the pieces fit → split by expertise → clear outcome + interface per thread → I own integration → seniors: propose, don't assign → shared doc of owners → [outcome] → define what and the interface, leave the how
+
+**My answer:**
+
+**Feedback:**
+
+---
+
+### C12. How do you keep a team motivated when things are going badly?
+**Tests:** resilience, team-first, emotional maturity
+**➡️ Use story:** S05 (team 7 → 3 before v1), plus what you learned from the architect
+
+**Answer:**
+"I've been through a stretch like that. Before our first release, our team went from seven ML engineers to three within a few weeks, with a deadline coming and a lot still unproven.
+
+What I learned, mostly by watching our new architect, is that **motivation comes from clarity and calm, not pep talks**. She never got angry, even when things weren't going well, and it changed the mood of the whole team. So the things I try to do are:
+
+- **Make progress visible.** Break the work into small pieces so people can see things getting done, which matters a lot when the big picture feels heavy.
+- **Make ownership clear.** When everyone knows exactly what they own, there's less anxiety and less stepping on each other.
+- **Make my own work dependable**, so nobody has to worry about my part. In that stretch, I turned every edge case the testers found into a fix quickly.
+- **Recognize people specifically**, like the testers whose findings improved the parser, or my intern's work in front of the seniors.
+- **Stay calm myself.** If I panic, it spreads; if I'm steady, that spreads too.
+
+We delivered v1 in about [a month]. That experience taught me a calm, organized team beats a stressed, heroic one."
+
+**Anchors:** real: 7 → 3 before v1 → learned from architect: clarity + calm > pep talks → visible progress, clear ownership, dependable work, specific recognition, stay calm → v1 delivered → calm + organized > heroic
+
+**My answer:**
+
+**Feedback:**
+
+---
+
+### C13. Have you ever had to guide or manage someone else's work? How did it go?
+**Tests:** mentorship, accountability for others
+**➡️ Use story:** S06 (intern)
+
+**Answer. ⚠️ Fill the [brackets]:**
+"Yes. During my current project, an intern worked directly with me [for several months, verify].
+
+I treated it as two jobs: getting good work out of him, and helping him grow. I gave him **real pieces of the project** rather than busywork: building deterministic functions for our approach experiment, exploring graph RAG, and testing the parser across manuscript types. I'd explain **why** a task mattered before handing it over, [pair with him on the first part], and review his work. When his work came up with the seniors, I **took responsibility for it**, so he felt safe to try things and make mistakes.
+
+[One honest thing that was hard: e.g. 'balancing his questions with my own deadlines', or 'early on I gave him a task that was too vague, and he lost time, so after that I always wrote down the expected output'.]
+
+He contributed directly to our approach experiment and our same-day client prototype. When he later moved to another company, it was a loss for the team, but it showed me I can lead people, not just tasks."
+
+**Anchors:** intern, several months → two jobs: output + growth → real work → explain why, [pair], review → took responsibility in front of seniors → [what was hard] → contributed to experiment + prototype → I can lead people
+**Tip:** the "what was hard" line makes it believable. Don't skip it.
+
+**My answer:**
+
+**Feedback:**
+
+---
+
+### C14. How would you describe your leadership style?
+**Tests:** self-awareness
+
+**Answer:**
+"I'd say I lead by **making things clear and then getting out of the way**.
+
+In practice that means three things. First, I try to make the problem and the options **concrete**: writing them down, or building a quick test or prototype, so people decide on evidence rather than opinion. Like when I settled a design disagreement by testing a senior's approach instead of arguing. Second, I **connect people** rather than becoming the middle-man: I learned the hard way, bridging US and India teams, that if everything goes through me, it doesn't scale. Third, I try to **back people up**, like I did with my intern, so they feel safe owning something.
+
+What I'm still working on is stepping back sooner. Because I like going deep, my instinct is sometimes to do things myself. I'm learning that the best thing I can do is often to set up someone else to own it."
+
+**Anchors:** clear, then get out of the way → make it concrete (docs, tests: S03) → connect people, don't be the middle-man (S04) → back people up (S06) → still working on: stepping back sooner (links to weakness A5)
+
+**My answer:**
+
+**Feedback:**
