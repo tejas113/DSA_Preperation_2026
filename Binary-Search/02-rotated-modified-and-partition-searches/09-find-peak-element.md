@@ -78,6 +78,7 @@ class Solution:
 * **Loop form:** `right = mid - 1` pairs with `while left <= right`. The primary solution uses `right = mid` with `while left < right`; never mix the two.
 * **Trade-off:** it can return early (as soon as `mid` is a peak), but it does up to two comparisons per step and needs index guards. The primary version has one comparison, no guards (`mid + 1` is always valid since `mid < right`), and no unreachable `return -1`.
 * **Time / Space:** `O(log n)` / `O(1)`, same as the primary solution.
+* **Equivalent phrasing:** the same logic is often written as "`mid` is smaller than its neighbour" (`mid > 0 and nums[mid] < nums[mid - 1]` → `right = mid - 1`, `elif mid < len(nums) - 1 and nums[mid] < nums[mid + 1]` → `left = mid + 1`, else `return mid`). Same branches, same cost; pick whichever reads more naturally to you in an interview.
 * **Trace:** `[1, 2, 1, 3, 5, 6, 4]` → `mid = 3` (value 3): right neighbour 5 is greater → `left = 4`; `mid = 5` (value 6): neither neighbour is greater → return `5`.
 
 ## 4. Dry Run
