@@ -49,6 +49,37 @@ class Solution:
         return left
 ```
 
+### Alternative: check both neighbours (exact-match loop form)
+
+Same "walk toward the larger neighbour" idea, but written in Form 1 (`while left <= right`, `mid ± 1`): `mid` is tested as a peak directly, and discarded when a neighbour beats it.
+
+```python
+class Solution:
+    def findPeakElement(self, nums: list[int]) -> int:
+        left = 0
+        right = len(nums) - 1
+
+        while left <= right:
+            mid = left + (right - left) // 2
+
+            # Check if left neighbor is greater
+            if mid > 0 and nums[mid - 1] > nums[mid]:
+                right = mid - 1
+            # Check if right neighbor is greater
+            elif mid < len(nums) - 1 and nums[mid + 1] > nums[mid]:
+                left = mid + 1
+            else:
+                return mid  # neither neighbor is greater → mid is a peak
+
+        return -1  # unreachable for a non-empty array
+```
+
+* **Why it's correct:** if a neighbour is greater, `mid` is not a peak, so it can be dropped (`mid ± 1`), and a peak is guaranteed on the side of the greater neighbour (the climb either reaches an edge, which counts as a peak because the boundary is `-∞`, or turns into a descent). If neither neighbour is greater, `mid` is a peak and is returned immediately. The `mid > 0` / `mid < len(nums) - 1` guards treat a missing neighbour as `-∞`.
+* **Loop form:** `right = mid - 1` pairs with `while left <= right`. The primary solution uses `right = mid` with `while left < right`; never mix the two.
+* **Trade-off:** it can return early (as soon as `mid` is a peak), but it does up to two comparisons per step and needs index guards. The primary version has one comparison, no guards (`mid + 1` is always valid since `mid < right`), and no unreachable `return -1`.
+* **Time / Space:** `O(log n)` / `O(1)`, same as the primary solution.
+* **Trace:** `[1, 2, 1, 3, 5, 6, 4]` → `mid = 3` (value 3): right neighbour 5 is greater → `left = 4`; `mid = 5` (value 6): neither neighbour is greater → return `5`.
+
 ## 4. Dry Run
 
 `nums = [1, 2, 1, 3, 5, 6, 4]`

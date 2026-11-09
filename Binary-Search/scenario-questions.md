@@ -605,6 +605,8 @@ while left < right:
 return left
 ```
 
+**Alternative** (in the write-up): `while left <= right`; if `nums[mid-1] > nums[mid]` then `right = mid - 1`, elif `nums[mid+1] > nums[mid]` then `left = mid + 1`, else `return mid` (guard `mid > 0` and `mid < n - 1`). Same cost; it returns as soon as `mid` is a peak.
+
 **Cost.** `O(log n)` time, `O(1)` space. `mid + 1` is safe because `mid < right ≤ n − 1`.
 
 **Follow-up.** *"Highest overall?"* → binary search can't promise that; `O(n)`. *"Equal neighbours allowed?"* → Variant B. *"2D grid?"* → gap, see Part 6.
